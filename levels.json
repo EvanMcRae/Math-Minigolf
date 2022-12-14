@@ -1,0 +1,500 @@
+{
+    "levels": [
+        {
+            "number": 0,
+            "start_text": "In the beginning, there was nothing…",
+            "end_text": "Not very interesting, right?",
+            "operations": [],
+            "numbers": [
+                "0"
+            ],
+            "goal": {
+                "x": 0,
+                "y": 0
+            },
+            "complex": false
+        },
+        {
+            "number": 1,
+            "start_text": "Let’s add a number!",
+            "end_text": "What about MORE numbers?",
+            "operations": [],
+            "numbers": [
+                "0",
+                "1"
+            ],
+            "goal": {
+                "x": 0,
+                "y": 1
+            },
+            "complex": false
+        },
+        {
+            "number": 2,
+            "start_text": "With just zero and one at our hands, we are able to create all kinds of numbers. Welcome to the Big Bang of Mathematics!",
+            "end_text": "What if we could somehow combine these numbers together?",
+            "operations": [],
+            "numbers": [
+                "0",
+                "1",
+                "2",
+                "3",
+                "4",
+                "5"
+            ],
+            "goal": {
+                "x": 0,
+                "y": 13
+            },
+            "complex": false
+        },
+        {
+            "number": 3,
+            "start_text": "We can! In fact, the act of playing move after move has already implicitly acted as addition, our first operator! Try to do this level in only one move!",
+            "end_text": "",
+            "operations": [],
+            "numbers": [
+                "3",
+                "5",
+                "2",
+                "9"
+            ],
+            "complex": false
+        },
+        {
+            "number": 2,
+            "start_text": "With just zero and one at our hands, we are able to create all kinds of numbers. Welcome to the Big Bang of Mathematics!",
+            "end_text": "What if we could somehow combine these numbers together?",
+            "operations": [],
+            "numbers": [
+                "0",
+                "1",
+                "2",
+                "3",
+                "4",
+                "5"
+            ],
+            "complex": false
+        },
+        {
+            "number": 2,
+            "start_text": "With just zero and one at our hands, we are able to create all kinds of numbers. Welcome to the Big Bang of Mathematics!",
+            "end_text": "What if we could somehow combine these numbers together?",
+            "operations": [],
+            "numbers": [
+                "0",
+                "1",
+                "2",
+                "3",
+                "4",
+                "5"
+            ],
+            "complex": false
+        },
+        {
+            "number": 2,
+            "start_text": "With just zero and one at our hands, we are able to create all kinds of numbers. Welcome to the Big Bang of Mathematics!",
+            "end_text": "What if we could somehow combine these numbers together?",
+            "operations": [],
+            "numbers": [
+                "0",
+                "1",
+                "2",
+                "3",
+                "4",
+                "5"
+            ],
+            "complex": false
+        },
+        {
+            "number": 2,
+            "start_text": "With just zero and one at our hands, we are able to create all kinds of numbers. Welcome to the Big Bang of Mathematics!",
+            "end_text": "What if we could somehow combine these numbers together?",
+            "operations": [],
+            "numbers": [
+                "0",
+                "1",
+                "2",
+                "3",
+                "4",
+                "5"
+            ],
+            "complex": false
+        },
+        {
+            "number": 2,
+            "start_text": "With just zero and one at our hands, we are able to create all kinds of numbers. Welcome to the Big Bang of Mathematics!",
+            "end_text": "What if we could somehow combine these numbers together?",
+            "operations": [],
+            "numbers": [
+                "0",
+                "1",
+                "2",
+                "3",
+                "4",
+                "5"
+            ],
+            "complex": false
+        },
+        {
+            "number": 2,
+            "start_text": "With just zero and one at our hands, we are able to create all kinds of numbers. Welcome to the Big Bang of Mathematics!",
+            "end_text": "What if we could somehow combine these numbers together?",
+            "operations": [],
+            "numbers": [
+                "0",
+                "1",
+                "2",
+                "3",
+                "4",
+                "5"
+            ],
+            "complex": false
+        },
+        {
+            "number": 2,
+            "start_text": "With just zero and one at our hands, we are able to create all kinds of numbers. Welcome to the Big Bang of Mathematics!",
+            "end_text": "What if we could somehow combine these numbers together?",
+            "operations": [],
+            "numbers": [
+                "0",
+                "1",
+                "2",
+                "3",
+                "4",
+                "5"
+            ],
+            "complex": false
+        },
+        {
+            "number": 2,
+            "start_text": "With just zero and one at our hands, we are able to create all kinds of numbers. Welcome to the Big Bang of Mathematics!",
+            "end_text": "What if we could somehow combine these numbers together?",
+            "operations": [],
+            "numbers": [
+                "0",
+                "1",
+                "2",
+                "3",
+                "4",
+                "5"
+            ],
+            "complex": false
+        },
+        {
+            "number": 2,
+            "start_text": "With just zero and one at our hands, we are able to create all kinds of numbers. Welcome to the Big Bang of Mathematics!",
+            "end_text": "What if we could somehow combine these numbers together?",
+            "operations": [],
+            "numbers": [
+                "0",
+                "1",
+                "2",
+                "3",
+                "4",
+                "5"
+            ],
+            "complex": false
+        },
+        {
+            "number": 2,
+            "start_text": "With just zero and one at our hands, we are able to create all kinds of numbers. Welcome to the Big Bang of Mathematics!",
+            "end_text": "What if we could somehow combine these numbers together?",
+            "operations": [],
+            "numbers": [
+                "0",
+                "1",
+                "2",
+                "3",
+                "4",
+                "5"
+            ],
+            "complex": false
+        },
+        {
+            "number": 2,
+            "start_text": "With just zero and one at our hands, we are able to create all kinds of numbers. Welcome to the Big Bang of Mathematics!",
+            "end_text": "What if we could somehow combine these numbers together?",
+            "operations": [],
+            "numbers": [
+                "0",
+                "1",
+                "2",
+                "3",
+                "4",
+                "5"
+            ],
+            "complex": false
+        },
+        {
+            "number": 2,
+            "start_text": "With just zero and one at our hands, we are able to create all kinds of numbers. Welcome to the Big Bang of Mathematics!",
+            "end_text": "What if we could somehow combine these numbers together?",
+            "operations": [],
+            "numbers": [
+                "0",
+                "1",
+                "2",
+                "3",
+                "4",
+                "5"
+            ],
+            "complex": false
+        },
+        {
+            "number": 2,
+            "start_text": "With just zero and one at our hands, we are able to create all kinds of numbers. Welcome to the Big Bang of Mathematics!",
+            "end_text": "What if we could somehow combine these numbers together?",
+            "operations": [],
+            "numbers": [
+                "0",
+                "1",
+                "2",
+                "3",
+                "4",
+                "5"
+            ],
+            "complex": false
+        },
+        {
+            "number": 2,
+            "start_text": "With just zero and one at our hands, we are able to create all kinds of numbers. Welcome to the Big Bang of Mathematics!",
+            "end_text": "What if we could somehow combine these numbers together?",
+            "operations": [],
+            "numbers": [
+                "0",
+                "1",
+                "2",
+                "3",
+                "4",
+                "5"
+            ],
+            "complex": false
+        },
+        {
+            "number": 2,
+            "start_text": "With just zero and one at our hands, we are able to create all kinds of numbers. Welcome to the Big Bang of Mathematics!",
+            "end_text": "What if we could somehow combine these numbers together?",
+            "operations": [],
+            "numbers": [
+                "0",
+                "1",
+                "2",
+                "3",
+                "4",
+                "5"
+            ],
+            "complex": false
+        },
+        {
+            "number": 2,
+            "start_text": "With just zero and one at our hands, we are able to create all kinds of numbers. Welcome to the Big Bang of Mathematics!",
+            "end_text": "What if we could somehow combine these numbers together?",
+            "operations": [],
+            "numbers": [
+                "0",
+                "1",
+                "2",
+                "3",
+                "4",
+                "5"
+            ],
+            "complex": false
+        },
+        {
+            "number": 2,
+            "start_text": "With just zero and one at our hands, we are able to create all kinds of numbers. Welcome to the Big Bang of Mathematics!",
+            "end_text": "What if we could somehow combine these numbers together?",
+            "operations": [],
+            "numbers": [
+                "0",
+                "1",
+                "2",
+                "3",
+                "4",
+                "5"
+            ],
+            "complex": false
+        },
+        {
+            "number": 2,
+            "start_text": "With just zero and one at our hands, we are able to create all kinds of numbers. Welcome to the Big Bang of Mathematics!",
+            "end_text": "What if we could somehow combine these numbers together?",
+            "operations": [],
+            "numbers": [
+                "0",
+                "1",
+                "2",
+                "3",
+                "4",
+                "5"
+            ],
+            "complex": false
+        },
+        {
+            "number": 2,
+            "start_text": "With just zero and one at our hands, we are able to create all kinds of numbers. Welcome to the Big Bang of Mathematics!",
+            "end_text": "What if we could somehow combine these numbers together?",
+            "operations": [],
+            "numbers": [
+                "0",
+                "1",
+                "2",
+                "3",
+                "4",
+                "5"
+            ],
+            "complex": false
+        },
+        {
+            "number": 2,
+            "start_text": "With just zero and one at our hands, we are able to create all kinds of numbers. Welcome to the Big Bang of Mathematics!",
+            "end_text": "What if we could somehow combine these numbers together?",
+            "operations": [],
+            "numbers": [
+                "0",
+                "1",
+                "2",
+                "3",
+                "4",
+                "5"
+            ],
+            "complex": false
+        },
+        {
+            "number": 2,
+            "start_text": "With just zero and one at our hands, we are able to create all kinds of numbers. Welcome to the Big Bang of Mathematics!",
+            "end_text": "What if we could somehow combine these numbers together?",
+            "operations": [],
+            "numbers": [
+                "0",
+                "1",
+                "2",
+                "3",
+                "4",
+                "5"
+            ],
+            "complex": false
+        },
+        {
+            "number": 2,
+            "start_text": "With just zero and one at our hands, we are able to create all kinds of numbers. Welcome to the Big Bang of Mathematics!",
+            "end_text": "What if we could somehow combine these numbers together?",
+            "operations": [],
+            "numbers": [
+                "0",
+                "1",
+                "2",
+                "3",
+                "4",
+                "5"
+            ],
+            "complex": false
+        },
+        {
+            "number": 2,
+            "start_text": "With just zero and one at our hands, we are able to create all kinds of numbers. Welcome to the Big Bang of Mathematics!",
+            "end_text": "What if we could somehow combine these numbers together?",
+            "operations": [],
+            "numbers": [
+                "0",
+                "1",
+                "2",
+                "3",
+                "4",
+                "5"
+            ],
+            "complex": false
+        },
+        {
+            "number": 2,
+            "start_text": "With just zero and one at our hands, we are able to create all kinds of numbers. Welcome to the Big Bang of Mathematics!",
+            "end_text": "What if we could somehow combine these numbers together?",
+            "operations": [],
+            "numbers": [
+                "0",
+                "1",
+                "2",
+                "3",
+                "4",
+                "5"
+            ],
+            "complex": false
+        },
+        {
+            "number": 2,
+            "start_text": "With just zero and one at our hands, we are able to create all kinds of numbers. Welcome to the Big Bang of Mathematics!",
+            "end_text": "What if we could somehow combine these numbers together?",
+            "operations": [],
+            "numbers": [
+                "0",
+                "1",
+                "2",
+                "3",
+                "4",
+                "5"
+            ],
+            "complex": false
+        },
+        {
+            "number": 2,
+            "start_text": "With just zero and one at our hands, we are able to create all kinds of numbers. Welcome to the Big Bang of Mathematics!",
+            "end_text": "What if we could somehow combine these numbers together?",
+            "operations": [],
+            "numbers": [
+                "0",
+                "1",
+                "2",
+                "3",
+                "4",
+                "5"
+            ],
+            "complex": false
+        },
+        {
+            "number": 2,
+            "start_text": "With just zero and one at our hands, we are able to create all kinds of numbers. Welcome to the Big Bang of Mathematics!",
+            "end_text": "What if we could somehow combine these numbers together?",
+            "operations": [],
+            "numbers": [
+                "0",
+                "1",
+                "2",
+                "3",
+                "4",
+                "5"
+            ],
+            "complex": false
+        },
+        {
+            "number": 2,
+            "start_text": "With just zero and one at our hands, we are able to create all kinds of numbers. Welcome to the Big Bang of Mathematics!",
+            "end_text": "What if we could somehow combine these numbers together?",
+            "operations": [],
+            "numbers": [
+                "0",
+                "1",
+                "2",
+                "3",
+                "4",
+                "5"
+            ],
+            "complex": false
+        },
+        {
+            "number": 2,
+            "start_text": "With just zero and one at our hands, we are able to create all kinds of numbers. Welcome to the Big Bang of Mathematics!",
+            "end_text": "What if we could somehow combine these numbers together?",
+            "operations": [],
+            "numbers": [
+                "0",
+                "1",
+                "2",
+                "3",
+                "4",
+                "5"
+            ],
+            "complex": false
+        }
+    ]
+}
