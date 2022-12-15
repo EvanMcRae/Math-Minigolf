@@ -2,7 +2,7 @@
     "levels": [
         {
             "number": 0,
-            "start_text": "In the beginning, there was nothing… nothing but zero, a ball, a field, and a hole with a flag. Mostly nothing, though.",
+            "start_text": "In the beginning, there was nothing... nothing but zero, a ball, a field, and a hole with a flag. Mostly nothing, though.",
             "end_text": "Not very interesting, right?",
             "operations": [],
             "numbers": [
@@ -16,7 +16,7 @@
         },
         {
             "number": 1,
-            "start_text": "Well, let’s spice it up a bit. How about a new number? Let’s call it one. And hey, now you aren't right on top of the hole!",
+            "start_text": "Well, let's spice it up a bit. How about a new number? Let's call it one. And hey, now you aren't right on top of the hole!",
             "end_text": "What about MORE numbers?",
             "operations": [],
             "numbers": [
@@ -51,7 +51,7 @@
         {
             "number": 3,
             "start_text": "We can! In fact, the act of playing move after move has already implicitly acted as addition, our first operator! Try to do this level in only one move!",
-            "end_text": "Sure that’s fun, but is there an opposite to addition?",
+            "end_text": "Sure that's fun, but is there an opposite to addition?",
             "operations": [
                 "+"
             ],
@@ -69,7 +69,7 @@
         },
         {
             "number": 4,
-            "start_text": "If addition is when you add one number’s value to another, then subtraction is when you take one number’s value away from another! But be careful, this may be dangerous for our numbers...",
+            "start_text": "If addition is when you add one number's value to another, then subtraction is when you take one number's value away from another! But be careful, this may be dangerous for our numbers...",
             "end_text": "Congratulations, you kept all the numbers safe and sound! And that, my friends, is the end of the story of numbers.",
             "operations": [
                 "+", "-"
@@ -203,7 +203,7 @@
         {
             "number": 11,
             "start_text": "Remember how we introduced multiplication with repeated addition? Well, how about repeated multiplication?",
-            "end_text": "When a number is multiplied by itself some number of times, this becomes its own operation called exponentiation. The number being multiplied is the base, and the number of times it’s multiplied by itself is the power. Here, we’ve raised 2 to the power of 3!",
+            "end_text": "When a number is multiplied by itself some number of times, this becomes its own operation called exponentiation. The number being multiplied is the base, and the number of times it's multiplied by itself is the power. Here, we've raised 2 to the power of 3!",
             "operations": [
                 "+",
                 "-"
@@ -221,8 +221,8 @@
         },
         {
             "number": 12,
-            "start_text": "We’ll now refer to powers with its own symbol, the carat (^). Play around with them and see if you can reach the goal!",
-            "end_text": "Now you’re a master of integers! But can we go further?",
+            "start_text": "We'll now refer to powers with its own symbol, the carat (^). Play around with them and see if you can reach the goal!",
+            "end_text": "Now you're a master of integers! But can we go further?",
             "operations": [
                 "^",
                 "+"
@@ -241,18 +241,19 @@
         },
         {
             "number": 13,
-            "start_text": "",
+            "start_text": "Remember how we introduced subtraction as the opposite of addition? Well, how about the opposite of multiplication? Introducing division!",
             "end_text": "",
             "operations": [
-                "+",
-                "-"
+                "*",
+                "/"
             ],
             "numbers": [
-                ""
+                "1",
+                "8"
             ],
             "goal": {
                 "x": 0,
-                "y": 0
+                "y": 0.125
             },
             "complex": false
         },
