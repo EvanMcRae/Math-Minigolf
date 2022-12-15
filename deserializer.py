@@ -1,19 +1,19 @@
 import json
 import level
 
-Levels = []
+levels = []
 
 # Opening JSON file
-with open('levels.json', 'r') as infile:
+with open('levels.json', 'r') as inFile:
  
     # Reading from json file
-    levelData = json.load(infile)
-    infile.close()
+    levelData = json.load(inFile)
+    inFile.close()
 
 for i in range (0, len(levelData["levels"])):
     thisLevel = level.Level.from_json(levelData["levels"][i])
-    Levels.append(thisLevel)
+    levels.append(thisLevel)
 
-for i in range(0, len(Levels)):
-    print(Levels[i])
+for i in range(0, len(levels)):
+    print(levels[i])
     print("\n")
