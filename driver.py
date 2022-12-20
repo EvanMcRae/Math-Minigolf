@@ -4,6 +4,7 @@
 import pygame
 import json
 import level
+import re
 
 
 # Global variables here
@@ -24,8 +25,20 @@ def loadLevels(filename): # provide levels.json here
 def parseInput(input):
     print()
 
-def getUserInput():
-    print()
+def getUserInput(lvl):
+    print('Enter an equation with the provided numbers and operations:')
+    equ = input()
+    nums = re.split(' \+\-\*/^', equ)
+    print(nums)
+    for i in range(0, len(nums)):
+        if not nums[i] in lvl.numbers:
+            print('invalid')
+            return ''
+    print('valid')
+    return equ
+
+
+
 
 
 
@@ -54,7 +67,7 @@ def animateBallMovement(destination):
     # We could scale this as needed, using
     print()
 
-def drawField(level):
+def drawField(lvl):
     #do something
     print()
 
@@ -85,7 +98,9 @@ while running:
     drawField(levels[currentLevel])
 
     print(levels[currentLevel].startText)
-    getUserInput()
+    print('Operations: ' + str(levels[currentLevel].operations)[1:-1])
+    print('Numbers: ' + str(levels[currentLevel].numbers)[1:-1])
+    getUserInput(levels[currentLevel])
 
 
 # Done! Time to quit.
