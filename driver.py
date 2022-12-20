@@ -6,13 +6,13 @@ import json
 import level
 
 
-# Glabal variables here
+# Global variables here
 levels = []
-
+currentMove = ''
+currentLevel = 0
 
 # Utility functions go here
-
-def loadLevels(filename): #provide levels.json here
+def loadLevels(filename): # provide levels.json here
     with open(filename, 'r') as inFile:
         levelData = json.load(inFile)
         inFile.close()
@@ -54,9 +54,9 @@ def animateBallMovement(destination):
     # We could scale this as needed, using
     print()
 
-def drawField():
-
-
+def drawField(level):
+    #do something
+    print()
 
 
 
@@ -64,6 +64,7 @@ def drawField():
 # Main loop here
 # Run until the user asks to quit
 running = True
+loadLevels('levels.json')
 while running:
 
     # Did the user click the window close button?
@@ -79,6 +80,13 @@ while running:
 
     # Flip the display
     pygame.display.flip()
+
+    # Use current level data
+    drawField(levels[currentLevel])
+
+    print(levels[currentLevel].startText)
+    getUserInput()
+
 
 # Done! Time to quit.
 pygame.quit()
