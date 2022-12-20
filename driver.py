@@ -4,7 +4,8 @@
 import pygame
 import json
 import level
-from pygame.locals import *
+from pygame.locals import *import re
+
 
 # Global variables here
 levels = []
@@ -27,8 +28,25 @@ def loadLevels(filename): # provide levels.json here
 def parseInput(input):
     print()
 
-def getUserInput():
-    print()
+def getUserInput(lvl):
+    print('Enter an equation with the provided numbers and operations:')
+    equ = input()
+    enteredNums = re.split(' |\+|\-|\*|/|\^', equ)
+    print(enteredNums)
+    validNums = lvl.numbers
+
+    for i in range(0, len(enteredNums)):
+
+        if not enteredNums[i] in validNums:
+            print('Invalid input, please try again!')
+            return None
+        validNums.remove(enteredNums[i])
+
+    print('valid')
+    return equ
+
+
+
 
 
 
@@ -144,10 +162,9 @@ while running:
     
 
     print(levels[currentLevel].startText)
-    getUserInput()
-    #clock.tick(5) #5 fps
-
-    wait()
+    print('Operations: ' + str(levels[currentLevel].operations)[1:-1])
+    print('Numbers: ' + str(levels[currentLevel].numbers)[1:-1])
+    getUserInput(levels[currentLevel])
 
 
 # Done! Time to quit.
