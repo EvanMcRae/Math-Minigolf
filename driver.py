@@ -2,6 +2,8 @@
 # Cool to have multiple sprites for the flag so it can wave a bit (animation)
 
 import pygame
+import json
+import level
 
 
 # Glabal variables here
@@ -10,8 +12,14 @@ levels = []
 
 # Utility functions go here
 
-def loadLevels(filename):
-    print()
+def loadLevels(filename): #provide levels.json here
+    with open(filename, 'r') as inFile:
+        levelData = json.load(inFile)
+        inFile.close()
+
+    for i in range (0, len(levelData["levels"])):
+        thisLevel = level.Level.from_json(levelData["levels"][i])
+        levels.append(thisLevel)
 
 def parseInput(input):
     print()
