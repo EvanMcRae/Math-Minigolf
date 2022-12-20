@@ -241,36 +241,40 @@
         },
         {
             "number": 13,
-            "start_text": "Remember how we introduced subtraction as the opposite of addition? Well, how about the opposite of multiplication? Introducing division!",
-            "end_text": "",
+            "start_text": "What happens when we use a negative number as the power?",
+            "end_text": "What was that?",
             "operations": [
-                "*",
-                "/"
+                "^",
+                "+"
             ],
             "numbers": [
-                "1",
-                "8"
+                "2",
+                "-2"
             ],
             "goal": {
                 "x": 0,
-                "y": 0.125
+                "y": 0.25
             },
             "complex": false
         },
         {
             "number": 14,
-            "start_text": "",
-            "end_text": "",
+            "start_text": "Well, first: remember how we introduced subtraction as the opposite of addition? How about the opposite of multiplication? Introducing division -- multiplication in reverse. See if you can figure this hole out!",
+            "end_text": "The hole wasn't aligned perfectly to the grid, but with division, we were able to get there anyway. Division opens up a whole new set of numbers: the rationals! And it turns out you used them already in the last puzzle.",
             "operations": [
-                "+",
-                "-"
+                "*",
+                "/",
+                "+"
             ],
             "numbers": [
-                ""
+                "1",
+                "1",
+                "8",
+                "3"
             ],
             "goal": {
                 "x": 0,
-                "y": 0
+                "y": 3.125
             },
             "complex": false
         },

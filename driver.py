@@ -2,16 +2,27 @@
 # Cool to have multiple sprites for the flag so it can wave a bit (animation)
 
 import pygame
+import json
+import level
+from pygame.locals import *
 
-
-# Glabal variables here
+# Global variables here
 levels = []
+currentMove = ''
+currentLevel = 0
 
+ballx = 0
+bally = 0
 
 # Utility functions go here
+def loadLevels(filename): # provide levels.json here
+    with open(filename, 'r') as inFile:
+        levelData = json.load(inFile)
+        inFile.close()
 
-def loadLevels(filename):
-    print()
+    for i in range (0, len(levelData["levels"])):
+        thisLevel = level.Level.from_json(levelData["levels"][i])
+        levels.append(thisLevel)
 
 def parseInput(input):
     print()
@@ -51,6 +62,24 @@ holeImg = pygame.image.load("hole.png")
 holeRect = holeImg.get_rect()
 
 # Pygame related functions here
+def wait():
+    while True:
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                pygame.quit()
+                exit()                
+            if event.type == KEYDOWN and event.key == K_f:
+                return
+
+# Draws img at x and y location on screen. Treats 0,0 as the center of the screen.
+def drawAt(img, rect, x,y):
+    screenX = x + resx / 2
+    screenY = -y + resy / 2
+    offsetX = rect.width / 2
+    offsetY = rect.height / 2
+    rect = rect.move(screenX - offsetX, screenY - offsetY)
+    screen.blit(img, rect)
+
 
 # We might want to make this apart of the ball class
 def animateBallMovement(destination):
@@ -62,11 +91,21 @@ def animateBallMovement(destination):
     # We could scale this as needed, using
     print()
 
-def drawField():
+def drawField(level):
+    print(level)
+    global flagRect
     # Fill the background with white
     screen.fill((255, 255, 255))
+
+    # Draw blank field
     screen.blit(fieldImg, fieldRect)
-   # pygame.display.flip()
+    
+    # Draw flag
+    drawAt(flagImg, flagRect, level.goal["x"], level.goal["y"])
+
+    # Draw ball
+    drawAt(ballImg, ballRect, ballx, bally)
+
    
 
 
@@ -76,8 +115,14 @@ def drawField():
 
 # Main loop here
 # Run until the user asks to quit
+
+#used for setting fps
+clock = pygame.time.Clock()
+
 running = True
+loadLevels('levels.json')
 while running:
+    
 
     # Did the user click the window close button?
     for event in pygame.event.get():
@@ -86,13 +131,24 @@ while running:
 
     # Fill the background with white
     screen.fill((255, 255, 255))
-    drawField()
+
+    # draw current  level data
+    drawField(levels[currentLevel])
     
     # Draw a solid blue circle in the center
     #pygame.draw.circle(screen, (0, 0, 255), (250, 250), 75)
 
-    # Flip the display
+    # Flip (update) the display
     pygame.display.flip()
+
+    
+
+    print(levels[currentLevel].startText)
+    getUserInput()
+    #clock.tick(5) #5 fps
+
+    wait()
+
 
 # Done! Time to quit.
 pygame.quit()
