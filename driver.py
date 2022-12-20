@@ -8,7 +8,6 @@ from pygame.locals import *
 
 import re
 import parser
-import cmath
 
 # Global variables here
 levels = []
@@ -34,10 +33,10 @@ def parseInput(input):
 def getUserInput(lvl):
     print('Enter an equation with the provided numbers and operations:')
     equ = input()
+   
+    # make sure the user entered only valid numbers
     enteredNums = re.split(' |\+|\-|\*|/|\^', equ)
     validNums = lvl.numbers # create copy of valid numbers to make sure you can only use them the number of times allowed
-
-    # make sure the user entered only valid numbers
     for i in range(0, len(enteredNums)):
         if not enteredNums[i] in validNums:
             print('Invalid input, please try again!')
@@ -52,6 +51,7 @@ def getUserInput(lvl):
             return None
 
     # make sure the equation can actually evaluate to something
+    equ = equ.replace('^','**')
     try:
         formula = parser.expr(equ).compile()
     except:
@@ -123,7 +123,6 @@ def animateBallMovement(destination):
     print()
 
 def drawField(level):
-    print(level)
     global flagRect
     # Fill the background with white
     screen.fill((255, 255, 255))
@@ -137,7 +136,11 @@ def drawField(level):
     # Draw ball
     drawAt(ballImg, ballRect, ballx, bally)
 
-   
+def printLevelInfo(lvl):
+    # very temporary
+    print(lvl.startText)
+    print('Operations: ' + str(lvl.operations)[1:-1])
+    print('Numbers: ' + str(lvl.numbers)[1:-1])
 
 
 
@@ -163,7 +166,7 @@ while running:
     # Fill the background with white
     screen.fill((255, 255, 255))
 
-    # draw current  level data
+    # draw current level data
     drawField(levels[currentLevel])
     
     # Draw a solid blue circle in the center
@@ -172,11 +175,8 @@ while running:
     # Flip (update) the display
     pygame.display.flip()
 
-    
+    printLevelInfo(levels[currentLevel])
 
-    print(levels[currentLevel].startText)
-    print('Operations: ' + str(levels[currentLevel].operations)[1:-1])
-    print('Numbers: ' + str(levels[currentLevel].numbers)[1:-1])
     getUserInput(levels[currentLevel])
 
 
@@ -207,7 +207,6 @@ pygame.quit()
 
 # Once out of moves, display end text for an amount of time or until user input.
 
-import parser
 from math import sin
 
 formula = "1x,2y"
