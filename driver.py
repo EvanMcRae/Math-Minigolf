@@ -23,16 +23,32 @@ def getUserInput():
 
 # Starting pygame stuff
 pygame.init()
-
+resx = 800
+resy = 800
 # Set up the drawing window
-screen = pygame.display.set_mode([500, 500])
-fieldImg = pygame.image.load("field.png")
-fieldCheckeredImg = pygame.image.load("field_checkered.png")
+screen = pygame.display.set_mode([resx, resy])
+
+# loading assets
+fieldImg = pygame.transform.scale(pygame.image.load("field.png"), (resx, resy))
+fieldRect = fieldImg.get_rect()
+
+fieldCheckeredImg = pygame.transform.scale(pygame.image.load("field_checkered.png"), (resx, resy))
+fieldCheckeredRect = fieldCheckeredImg.get_rect()
+
 holeImg = pygame.image.load("hole.png")
+holeRect = holeImg.get_rect()
+
 flagImg = pygame.image.load("flag.png")
+flagRect = flagImg.get_rect()
+
 flagNoHoleImg = pygame.image.load("flag_no_hole.png")
+flagNoHoleRect = flagNoHoleImg.get_rect()
+
 ballImg = pygame.image.load("ball.png")
+ballRect = ballImg.get_rect()
+
 holeImg = pygame.image.load("hole.png")
+holeRect = holeImg.get_rect()
 
 # Pygame related functions here
 
@@ -47,6 +63,11 @@ def animateBallMovement(destination):
     print()
 
 def drawField():
+    # Fill the background with white
+    screen.fill((255, 255, 255))
+    screen.blit(fieldImg, fieldRect)
+   # pygame.display.flip()
+   
 
 
 
@@ -65,12 +86,61 @@ while running:
 
     # Fill the background with white
     screen.fill((255, 255, 255))
-
+    drawField()
+    
     # Draw a solid blue circle in the center
-    pygame.draw.circle(screen, (0, 0, 255), (250, 250), 75)
+    #pygame.draw.circle(screen, (0, 0, 255), (250, 250), 75)
 
     # Flip the display
     pygame.display.flip()
 
 # Done! Time to quit.
 pygame.quit()
+
+
+
+
+#before main loop
+
+# load assets, levels, etc
+
+
+# levelCounterHere
+# #main loop
+# get the level we're on.
+# Display level in background (blurred).
+# Show start text.
+# Close start text after an amount of time or user input
+# unblur background
+
+# display level information (what moves are available and where goal is.)
+# wait for user input
+# process input
+# display result of input (if its valid. If not, go back to wait for user input)
+# If they have more moves, go back to wait for user input.
+
+# Once out of moves, display end text for an amount of time or until user input.
+
+import parser
+from math import sin
+
+formula = "1x,2y"
+code = parser.expr(formula).compile()
+x = 10
+print(eval(code))
+
+# importing "cmath" for complex number operations
+import cmath
+
+# Initializing real numbers
+x = 5
+y = 3
+
+# converting x and y into complex number
+z = complex(x,y);
+
+print(z)
+
+z += 10
+
+print(z)
