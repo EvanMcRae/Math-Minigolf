@@ -4,8 +4,11 @@
 import pygame
 import json
 import level
-from pygame.locals import *import re
+from pygame.locals import *
 
+import re
+import parser
+import cmath
 
 # Global variables here
 levels = []
@@ -16,7 +19,7 @@ ballx = 0
 bally = 0
 
 # Utility functions go here
-def loadLevels(filename): # provide levels.json here
+def loadLevels(filename):
     with open(filename, 'r') as inFile:
         levelData = json.load(inFile)
         inFile.close()
@@ -32,23 +35,33 @@ def getUserInput(lvl):
     print('Enter an equation with the provided numbers and operations:')
     equ = input()
     enteredNums = re.split(' |\+|\-|\*|/|\^', equ)
-    print(enteredNums)
-    validNums = lvl.numbers
+    validNums = lvl.numbers # create copy of valid numbers to make sure you can only use them the number of times allowed
 
+    # make sure the user entered only valid numbers
     for i in range(0, len(enteredNums)):
-
         if not enteredNums[i] in validNums:
             print('Invalid input, please try again!')
             return None
         validNums.remove(enteredNums[i])
 
-    print('valid')
-    return equ
+    # make sure the user entered only valid operations
+    enteredOps = re.split('\d+', equ)
+    for i in range(0, len(enteredOps)):
+        if not enteredOps[i] == '' and not enteredOps[i] in lvl.operations:
+            print('Invalid input, please try again!')
+            return None
 
-
-
-
-
+    # make sure the equation can actually evaluate to something
+    try:
+        formula = parser.expr(equ).compile()
+    except:
+        print('Invalid input, please try again!')
+        return None
+    
+    value = eval(formula)
+    print('Entered value: ' + str(value))
+    lvl.numbers = validNums # consumes used numbers
+    return value
 
 # Starting pygame stuff
 pygame.init()
