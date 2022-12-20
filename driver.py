@@ -28,12 +28,17 @@ def parseInput(input):
 def getUserInput(lvl):
     print('Enter an equation with the provided numbers and operations:')
     equ = input()
-    nums = re.split(' \+\-\*/^', equ)
-    print(nums)
-    for i in range(0, len(nums)):
-        if not nums[i] in lvl.numbers:
-            print('invalid')
-            return ''
+    enteredNums = re.split(' |\+|\-|\*|/|\^', equ)
+    print(enteredNums)
+    validNums = lvl.numbers
+
+    for i in range(0, len(enteredNums)):
+
+        if not enteredNums[i] in validNums:
+            print('Invalid input, please try again!')
+            return None
+        validNums.remove(enteredNums[i])
+
     print('valid')
     return equ
 
