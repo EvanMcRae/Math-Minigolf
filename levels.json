@@ -176,17 +176,17 @@
             "end_text": "Great job! In fact, there were multiple ways to complete that level.. but I'm sure the one you chose was good enough.",
             "operations": [
                 "*",
-                "+"
+                "-"
             ],
             "numbers": [
                 "2",
-                "-2",
+                "2",
                 "6",
-                "-6"
+                "6"
             ],
             "goal": {
                 "x": 0,
-                "y": 0
+                "y": -12
             },
             "type": "integer",
             "two_d": false
@@ -200,7 +200,7 @@
                 "-"
             ],
             "numbers": [
-                "-1",
+                "1",
                 "2",
                 "4"
             ],
