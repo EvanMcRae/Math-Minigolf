@@ -40,6 +40,31 @@ def loadLevels(filename):
         levels.append(thisLevel)
 
 def getUserInput(lvl, equ):   
+    equ = equ.replace(' ', '') #get rid of any whitespace
+    if lvl.type == "complex":
+        #replace the i's with j's so python can parse
+        equ = equ.replace('i','j')
+
+       
+        try:
+            #convert user input to a complex number
+            enteredNum = complex(equ)
+        except:
+            print('Invalid complex input, please try again!')
+            return None
+        
+        #check that the number entered is still in the list of options.
+        for num in lvl.numbers:
+            if complex(num) == enteredNum: #true when user entered a valid number
+                lvl.numbers.remove(equ)
+                return complex(num)
+        
+        #didn't find match in valid numbers list
+        print('Invalid input, please try again! C')
+        return None
+
+
+
     # make sure the user entered only valid numbers
     enteredNums = re.split(' |\+|\-|\*|/|\^', equ)
     validNums = lvl.numbers[:] # create copy of valid numbers to make sure you can only use them the number of times allowed
@@ -267,7 +292,7 @@ def drawGridLines(minX, maxX, minY, maxY, mode):
     if mode == "rational":
         print()
     
-    if mode == "imaginary":
+    if mode == "complex":
         print()
     
     
@@ -414,7 +439,7 @@ while running:
     deltas = None
 
     if curLevel != currentLevel:
-        printLevelInfo(level)
+        
         #reset ball location
         ballx = 0
         bally = 0
@@ -422,7 +447,7 @@ while running:
 
         curLevel = currentLevel
     
-    
+        print('levle nums = ', level.numbers)
 
     # Did the user click the window close button?
     for event in pygame.event.get():
@@ -473,7 +498,11 @@ while running:
             #dx, dy = deltas    
 
             #for now we do this
-            dy = deltas 
+            if(isinstance(deltas, complex)):
+                dx = deltas.real
+                dy = deltas.imag
+            else:
+                dy = deltas 
 
             #display this move
             if(currentLevel != 0): #we don't move on the first level
