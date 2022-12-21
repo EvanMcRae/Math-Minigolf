@@ -527,7 +527,7 @@ while running:
                 currentLevel += 1
             elif len(level.numbers) == 0:
                 restartLevel = True
-            elif level.type == "natural" and (ballx < 0 or bally < 0):
+            elif level.type == "natural" and (ballx < 0 or bally < 0) and not inMotion:
                 restartNegative = True
    
     clock.tick(10)
