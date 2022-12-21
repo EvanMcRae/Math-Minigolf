@@ -340,7 +340,7 @@ def inputMove():
     deltas = getUserInput(currentLevel)
     #prompt for input until we get something good
     while deltas == None:
-        deltas = getUserInput(level)
+        deltas = getUserInput(currentLevel)
 
     # we want this later.
     # dx, dy = deltas    
