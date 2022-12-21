@@ -4,15 +4,15 @@
             "number": 0,
             "start_text": "In the beginning, there was nothing... nothing but zero, a ball, a field, and a hole with a flag. Mostly nothing, though.",
             "end_text": "Not very interesting, right?",
-            "operations": [],
+            "operations": ["+"],
             "numbers": [
-                "0"
+                "3+4i"
             ],
             "goal": {
-                "x": 0,
-                "y": 0
+                "x": 3,
+                "y": 4
             },
-            "type": "natural",
+            "type": "complex",
             "two_d": false
         },
         {
