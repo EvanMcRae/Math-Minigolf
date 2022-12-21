@@ -30,6 +30,7 @@ dx = 0
 dy = 0
 inMotion = False
 restartLevel = False
+restartNegative = False
 
 # Utility functions go here
 def loadLevels(filename):
@@ -441,12 +442,15 @@ while running:
 
     deltas = None
 
-    if curLevel != currentLevel or restartLevel:
+    if curLevel != currentLevel or restartLevel or restartNegative:
         level = copy.deepcopy(levels[currentLevel])
+        #TODO turn into popups?
         if restartLevel:
-            print('You ran out of moves! Try again.') #TODO turn into popup?
-            #TODO also maybe have a different message if you went into negatives on a natural level
+            print('You ran out of moves! Try again.')
             restartLevel = False
+        if restartNegative:
+            print('What did you do?! Where did the ball even go? Try again, and think positive this time.')
+            restartNegative = False
         
         #reset ball location
         ballx = 0
@@ -523,6 +527,8 @@ while running:
                 currentLevel += 1
             elif len(level.numbers) == 0:
                 restartLevel = True
+            elif level.type == "natural" and (ballx < 0 or bally < 0):
+                restartNegative = True
    
     clock.tick(10)
     
