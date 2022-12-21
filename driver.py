@@ -391,11 +391,23 @@ def updateTextBox():
     # outside of user's text input
     input_rect.w = max(100, text_surface.get_width()+10)
 
-
+curLevel = prevLevel = -1
 running = True
 loadLevels('levels.json')
 while running:
     level = levels[currentLevel]
+    deltas = None
+
+    if curLevel != currentLevel:
+        printLevelInfo(level)
+        #reset ball location
+        ballx = 0
+        bally = 0
+        drawField(level)
+
+        curLevel = currentLevel
+    
+    
 
     # Did the user click the window close button?
     for event in pygame.event.get():
@@ -409,12 +421,17 @@ while running:
                     active = True
                 else:
                     active = False
-    
+
         if event.type == pygame.KEYDOWN:
+            #check input after enter is pressed
+            if event.key == pygame.K_RETURN:
+                deltas = getUserInput(level, user_text)
+                print('hit enter')
+                user_text = ""
 
             # Check for backspace
             if event.key == pygame.K_BACKSPACE:
-
+                
                 # get text input from 0 to -1 i.e. end.
                 user_text = user_text[:-1]
 
@@ -423,14 +440,10 @@ while running:
             else:
                 user_text += event.unicode
     
-    printLevelInfo(level)
     
-    #reset ball location
-    ballx = 0
-    bally = 0
-
+    
     # draw current level data
-    drawField(level)
+    
     updateTextBox()
     #drawGridLines(-10, 10, -10, 10, level.type)
 
@@ -441,11 +454,11 @@ while running:
     if not doneLevel:
         # in the future we need to change dx or dy depending on how the user enters input
 
-        #deltas = getUserInput(level)
+        
         #prompt for input until we get something good
         #if deltas == None:
             #drawField(level)
-        deltas = None
+        
             #deltas = getUserInput(level)
             
         if deltas != None:                
@@ -461,13 +474,17 @@ while running:
             #check if we're done with this level
             doneLevel = checkFinishedLevel(level)
             print('done level = ', doneLevel)
+            user_text = ""
+            if(doneLevel):
+                currentLevel += 1
 
-    else:
+    
         #if <ball at correct location>
-        currentLevel += 1
-        #wait()
         
-    clock.tick(30)
+        #wait()
+    
+        
+    clock.tick(10)
     
 
 
