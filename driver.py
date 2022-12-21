@@ -107,6 +107,7 @@ ballRect = ballImg.get_rect()
 holeImg = pygame.image.load("hole.png")
 holeRect = holeImg.get_rect()
 
+
 # Pygame related functions here
 def wait():
     while True:
@@ -169,13 +170,19 @@ def drawAt(img, rect, x,y):
 
 
 # We might want to make this apart of the ball class
-def animateBallMovement(destination):
+def animateBallMovement():
+    numFrames = 60 #animate movement over 60 frames (2 seconds prob)
+    destX = ballx + dx
+    destY = bally + dy
     #would probably be good to solve an ODE to calcuclate ball path that looks good (realistic friction) and ends up at the right location.
     #If that's too difficult, something that looks DECENT is: 
     # k = 2.9
     # x coord = 1/(t^k)
     # t = [2, 10]. t is the time step of the animation.
     # We could scale this as needed, using
+
+    
+
     print()
 
 
