@@ -557,30 +557,6 @@ pygame.quit()
 
 # Once out of moves, display end text for an amount of time or until user input.
 
-from math import sin
-
-formula = "1x,2y"
-code = parser.expr(formula).compile()
-x = 10
-print(eval(code))
-
-# importing "cmath" for complex number operations
-import cmath
-
-# Initializing real numbers
-x = 5
-y = 3
-
-# converting x and y into complex number
-z = complex(x,y)
-
-print(z)
-
-z += 10
-
-print(z)
-
-
 #nicer grid code:
 # draw = True
 #     for x in range(0, resx, int(resx/maxX/2)):

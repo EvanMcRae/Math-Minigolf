@@ -102,8 +102,7 @@
             "numbers": [
                 "2",
                 "3",
-                "6",
-                "10"
+                "9"
             ],
             "goal": {
                 "x": 0,
@@ -114,18 +113,20 @@
         },
         {
             "number": 6,
-            "start_text": "We still need to add a challenge here! Oops. TODO",
-            "end_text": "",
+            "start_text": "What you just discovered is negative numbers! If we want to play the game of subtraction, we need to include these. Let's call our numbers 'integers' now. See if you can reach this next hole!",
+            "end_text": "Let's see what other games the numbers can play.",
             "operations": [
                 "+",
                 "-"
             ],
             "numbers": [
-                ""
+                "4",
+                "5",
+                "8"
             ],
             "goal": {
                 "x": 0,
-                "y": 0
+                "y": -7
             },
             "type": "integer",
             "two_d": false
@@ -141,13 +142,11 @@
                 "2",
                 "2",
                 "2",
-                "2",
-                "2",
                 "2"
             ],
             "goal": {
                 "x": 0,
-                "y": 12
+                "y": 8
             },
             "type": "integer",
             "two_d": false
@@ -180,23 +179,21 @@
             ],
             "numbers": [
                 "2",
-                "2",
-                "6",
-                "6"
+                "4"
             ],
             "goal": {
                 "x": 0,
-                "y": -12
+                "y": -8
             },
             "type": "integer",
             "two_d": false
         },
         {
             "number": 10,
-            "start_text": "Now, what happens when you combine two negatives together?",
+            "start_text": "Now, what happens when you combine two negatives together? Try to only use negative numbers on this level.",
             "end_text": "When you multiply negatives, they cancel each other out and the product becomes positive!",
             "operations": [
-                "+",
+                "*",
                 "-"
             ],
             "numbers": [
@@ -216,8 +213,7 @@
             "start_text": "Remember how we introduced multiplication with repeated addition? Well, how about repeated multiplication?",
             "end_text": "When a number is multiplied by itself some number of times, this becomes its own operation called exponentiation. The number being multiplied is the base, and the number of times it's multiplied by itself is the power. Here, we've raised 2 to the power of 3!",
             "operations": [
-                "+",
-                "-"
+                "*"
             ],
             "numbers": [
                 "2",
@@ -233,21 +229,20 @@
         },
         {
             "number": 12,
-            "start_text": "We'll now refer to powers with its own symbol, the carat (^). Play around with them and see if you can reach the goal!",
+            "start_text": "We'll now refer to powers with its own symbol, the carat (^). Play around with them and see if you can reach the hole!",
             "end_text": "Now you're a master of integers! But can we go further?",
             "operations": [
                 "^",
-                "+"
+                "-"
             ],
             "numbers": [
-                "1",
                 "2",
                 "3",
                 "4"
             ],
             "goal": {
                 "x": 0,
-                "y": 0
+                "y": 5
             },
             "type": "integer",
             "two_d": false
@@ -273,8 +268,8 @@
         },
         {
             "number": 14,
-            "start_text": "Well, first: remember how we introduced subtraction as the opposite of addition? How about the opposite of multiplication? Introducing division -- multiplication in reverse. See if you can figure this hole out!",
-            "end_text": "The hole wasn't aligned perfectly to the grid, but with division, we were able to get there anyway. Division opens up a whole new set of numbers: the rationals! And it turns out you used them already in the last puzzle.",
+            "start_text": "Well, first: remember how we introduced subtraction as the opposite of addition? How about the opposite of multiplication? Introducing division: multiplication in reverse. See if you can figure this hole out!",
+            "end_text": "The hole wasn't aligned perfectly to the grid, but with division, we were able to get there anyway. Division opens up a whole new set of numbers: the rationals! And, it turns out that you used them already in the last level!",
             "operations": [
                 "*",
                 "/",
@@ -295,7 +290,7 @@
         },
         {
             "number": 15,
-            "start_text": "",
+            "start_text": "Let's keep playing with rational numbers!",
             "end_text": "",
             "operations": [
                 "+",
@@ -313,11 +308,11 @@
         },
         {
             "number": 16,
-            "start_text": "",
-            "end_text": "",
+            "start_text": "Now, remember our friend, the carat (^)? What happens when you use that with a rational number as the power?",
+            "end_text": "What was that supposed to be?",
             "operations": [
-                "+",
-                "-"
+                "^",
+                "/"
             ],
             "numbers": [
                 ""
