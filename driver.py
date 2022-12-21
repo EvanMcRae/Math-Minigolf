@@ -254,8 +254,8 @@ def drawTextAt(text, x, y, size=20):
     screen.blit(renderedText, offsetCoords)
 
 
-def drawNumberAt(number, x, y):
-    drawTextAt(str(number), x, y)
+def drawNumberAt(number, x, y, imaginary=False):
+    drawTextAt(str(number) + ('i' if imaginary else ''), x, y)
     
 
 def drawGridLines(minX, maxX, minY, maxY, mode):
@@ -267,7 +267,7 @@ def drawGridLines(minX, maxX, minY, maxY, mode):
     labelsY = []
 
     #Override mode until we get other things working better
-    mode = "integer"
+    # mode = "integer"
     
 
     if mode == "natural":
@@ -279,7 +279,7 @@ def drawGridLines(minX, maxX, minY, maxY, mode):
             labelsY.append(i)
         
 
-    if mode == "integer":
+    else:
         for i in range (minX, maxX + 1):
             labelsX.append(i)
 
@@ -301,7 +301,7 @@ def drawGridLines(minX, maxX, minY, maxY, mode):
             drawNumberAt(l, l, 0)
     
     for l in labelsY:        
-        drawNumberAt(l, 0, l)
+        drawNumberAt(l, 0, l, mode == "complex")
     
     
     for xcoord in labelsX:
@@ -334,6 +334,7 @@ def drawGridLines(minX, maxX, minY, maxY, mode):
 
 def drawField(level):
     mode = level.type
+    print(mode)
     #global flagRect
     # Fill the background with white
     screen.fill(white)
@@ -341,14 +342,14 @@ def drawField(level):
     # Draw blank field
     screen.blit(fieldImg, fieldRect)
     
-    drawGridLines(-10, 10, -10, 10, "natural")
+    drawGridLines(-10, 10, -10, 10, mode)
 
     # Draw flag
     flagX = level.goal["x"]
     flagY = level.goal["y"]
 
     drawAt(flagImg, flagRect, flagX, flagY)
-    flagPosString = str(Fraction(flagX).limit_denominator()) + " " + str(Fraction(flagY).limit_denominator())
+    flagPosString = str(Fraction(flagX).limit_denominator()) + " " + str(Fraction(flagY).limit_denominator()) + ('i' if mode == "complex" else '')
     drawTextAt(flagPosString, flagX+.5, flagY+3)
     
 
@@ -356,7 +357,7 @@ def drawField(level):
     drawAt(ballImg, ballRect, ballx, bally)
     if not inMotion:
         #if mode == ""
-        ballPosString = str(Fraction(ballx).limit_denominator()) + " " + str(Fraction(bally).limit_denominator())
+        ballPosString = str(Fraction(ballx).limit_denominator()) + " " + str(Fraction(bally).limit_denominator()) + ('i' if mode == "complex" else '')
         drawTextAt(ballPosString, ballx+.5, bally+.5)
 
 
