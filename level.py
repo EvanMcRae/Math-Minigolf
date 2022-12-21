@@ -1,12 +1,12 @@
 class Level:  
-    def __init__(self, number, startText, endText, operations, numbers, goal, complex):
+    def __init__(self, number, startText, endText, operations, numbers, goal, type):
         self.number = number
         self.startText = startText
         self.endText = endText
         self.operations = operations
         self.numbers = numbers
         self.goal = goal
-        self.complex = complex
+        self.type = type
 
     def __str__(self):
         output = "Level {0}:\n{1}\nValid Operations: ".format(self.number, self.startText)
@@ -17,10 +17,10 @@ class Level:
             output += self.numbers[i] + " "
         output += "\nGoal: ({0}, {1})".format(self.goal["x"], self.goal["y"])
         output += "\n" + self.endText
-        output += "\nComplex: " + ("true" if self.complex else "false") 
+        output += "\Type: " + self.type
         return output
 
     def from_json(json_dct):
         return Level(json_dct['number'], json_dct['start_text'], json_dct['end_text'],
                      json_dct['operations'], json_dct['numbers'],
-                     json_dct['goal'], json_dct['complex'])
+                     json_dct['goal'], json_dct['type'])

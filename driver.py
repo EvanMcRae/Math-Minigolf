@@ -1,13 +1,20 @@
 # Random ideas/notes
 # Cool to have multiple sprites for the flag so it can wave a bit (animation)
 
+import os
+os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
+
 import pygame
 import json
 import level
 from pygame.locals import *
 
+import warnings
+warnings.filterwarnings("ignore", category=DeprecationWarning) 
+
 import re
 import parser
+
 
 # Global variables here
 levels = []
@@ -26,9 +33,6 @@ def loadLevels(filename):
     for i in range (0, len(levelData["levels"])):
         thisLevel = level.Level.from_json(levelData["levels"][i])
         levels.append(thisLevel)
-
-def parseInput(input):
-    print()
 
 def getUserInput(lvl):
     print('Enter an equation with the provided numbers and operations:')
@@ -138,6 +142,7 @@ def drawField(level):
 
 def printLevelInfo(lvl):
     # very temporary
+    print('Level ' + str(lvl.number) + ':')
     print(lvl.startText)
     print('Operations: ' + str(lvl.operations)[1:-1])
     print('Numbers: ' + str(lvl.numbers)[1:-1])
