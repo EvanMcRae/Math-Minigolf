@@ -1,6 +1,6 @@
 # Random ideas/notes
 # Cool to have multiple sprites for the flag so it can wave a bit (animation)
-
+import sys
 import os
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 
@@ -353,6 +353,46 @@ def checkFinishedLevel(level):
 #used for setting fps
 clock = pygame.time.Clock()
 
+# input text box stuff
+base_font = pygame.font.Font(None, 32)
+user_text = ''  
+# create rectangle
+input_rect = pygame.Rect(200, 200, 140, 32)
+# basic font for user typed
+base_font = pygame.font.Font(None, 32)
+user_text = ''
+  
+# create rectangle
+input_rect = pygame.Rect(200, 200, 140, 32)
+# color_active stores color(lightskyblue3) which
+# gets active when input box is clicked by user
+color_active = pygame.Color('lightskyblue3')
+  
+# color_passive store color(chartreuse4) which is
+# color of input box.
+color_passive = pygame.Color('chartreuse4')
+color = color_passive
+active = False
+def updateTextBox():
+    if active:
+        color = color_active
+    else:
+        color = color_passive
+    
+    # draw rectangle and argument passed which should
+    # be on screen
+    pygame.draw.rect(screen, color, input_rect)
+  
+    text_surface = base_font.render(user_text, True, (255, 255, 255))
+    
+    # render at position stated in arguments
+    screen.blit(text_surface, (input_rect.x+5, input_rect.y+5))
+      
+    # set width of textfield so that text cannot get
+    # outside of user's text input
+    input_rect.w = max(100, text_surface.get_width()+10)
+
+
 running = True
 loadLevels('levels.json')
 while running:
@@ -361,48 +401,75 @@ while running:
     # Did the user click the window close button?
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
             running = False
 
+        if event.type == pygame.MOUSEBUTTONDOWN:
+                if input_rect.collidepoint(event.pos):
+                    active = True
+                else:
+                    active = False
+    
+        if event.type == pygame.KEYDOWN:
+
+            # Check for backspace
+            if event.key == pygame.K_BACKSPACE:
+
+                # get text input from 0 to -1 i.e. end.
+                user_text = user_text[:-1]
+
+            # Unicode standard is used for string
+            # formation
+            else:
+                user_text += event.unicode
     
     printLevelInfo(level)
-
+    
     #reset ball location
     ballx = 0
     bally = 0
 
     # draw current level data
     drawField(level)
+    updateTextBox()
     #drawGridLines(-10, 10, -10, 10, level.type)
 
     # Flip (update) the display
     pygame.display.flip()
     doneLevel = False
 
-    while (not doneLevel):
+    if not doneLevel:
         # in the future we need to change dx or dy depending on how the user enters input
 
-        deltas = getUserInput(level)
+        #deltas = getUserInput(level)
         #prompt for input until we get something good
-        while deltas == None:
-            deltas = getUserInput(level)
+        #if deltas == None:
+            #drawField(level)
+        deltas = None
+            #deltas = getUserInput(level)
+            
+        if deltas != None:                
+            #we want this later.
+            #dx, dy = deltas    
 
-        #we want this later.
-        #dx, dy = deltas    
+            #for now we do this
+            dy = deltas 
 
-        #for now we do this
-        dy = deltas 
+            #display this move
+            animateBallMovement(level)
 
-        #display this move
-        animateBallMovement(level)
+            #check if we're done with this level
+            doneLevel = checkFinishedLevel(level)
+            print('done level = ', doneLevel)
 
-        #check if we're done with this level
-        doneLevel = checkFinishedLevel(level)
-        print('done level = ', doneLevel)
-
+    else:
+        #if <ball at correct location>
+        currentLevel += 1
+        #wait()
+        
+    clock.tick(30)
     
-    #if <ball at correct location>
-    currentLevel += 1
-    #wait()
 
 
 # Done! Time to quit.
