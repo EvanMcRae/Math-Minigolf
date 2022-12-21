@@ -323,7 +323,8 @@ def drawField(level):
     flagY = level.goal["y"]
 
     drawAt(flagImg, flagRect, flagX, flagY)
-    drawTextAt("flag", flagX, flagY + flagRect.height / 1.5)
+    flagPosString = str(Fraction(flagX).limit_denominator()) + " " + str(Fraction(flagY).limit_denominator())
+    drawTextAt(flagPosString, flagX+.5, flagY+3)
     
 
     # Draw ball
