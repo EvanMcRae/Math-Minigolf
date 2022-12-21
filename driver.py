@@ -170,10 +170,16 @@ def drawAt(img, rect, x,y):
 
 
 # We might want to make this apart of the ball class
-def animateBallMovement():
+def animateBallMovement(level):
+    global ballx
+    global bally
     numFrames = 60 #animate movement over 60 frames (2 seconds prob)
     destX = ballx + dx
     destY = bally + dy
+
+    startX = ballx
+    startY = bally
+
     #would probably be good to solve an ODE to calcuclate ball path that looks good (realistic friction) and ends up at the right location.
     #If that's too difficult, something that looks DECENT is: 
     # k = 2.9
@@ -181,7 +187,16 @@ def animateBallMovement():
     # t = [2, 10]. t is the time step of the animation.
     # We could scale this as needed, using
 
-    
+
+
+    #animate with linear motion for now:
+    for frame in range(numFrames):
+        t = frame / numFrames
+        ballx = startX + t * dx
+        bally = startY + t * dy
+        drawField(level)
+        pygame.display.flip()
+        clock.tick(30)
 
     print()
 
@@ -212,6 +227,10 @@ def drawGridLines(minX, maxX, minY, maxY, mode):
     labelsX = []
     labelsY = []
 
+    #Override mode until we get other things working better
+    mode = "integer"
+    
+
     if mode == "natural":
         numLabels = 11
         for i in range (maxX + 1):
@@ -227,7 +246,6 @@ def drawGridLines(minX, maxX, minY, maxY, mode):
 
         for i in range (minY, maxY + 1):
             labelsY.append(i)
-        print()
 
     if mode == "real":
         print()
@@ -281,9 +299,11 @@ def drawField(level):
     # Fill the background with white
     screen.fill(white)
 
-    # Draw blank field    
+    # Draw blank field
     screen.blit(fieldImg, fieldRect)
     
+    drawGridLines(-10, 10, -10, 10, "natural")
+
     # Draw flag
     flagX = level.goal["x"]
     flagY = level.goal["y"]
@@ -303,6 +323,11 @@ def printLevelInfo(lvl):
     print(lvl.startText)
     print('Operations: ' + str(lvl.operations)[1:-1])
     print('Numbers: ' + str(lvl.numbers)[1:-1])
+
+    print('Goal location: ',end='')
+    
+    #if(lvl.type == "natural" or lvl.type == "integer"):
+    print("({}, {})".format(lvl.goal["x"], lvl.goal["y"]))
 
 
 
@@ -331,7 +356,6 @@ while running:
     # draw current level data
     drawField(level)
     #drawGridLines(-10, 10, -10, 10, level.type)
-    drawGridLines(-10, 10, -10, 10, "integer")
 
     # Draw a solid blue circle in the center
     #pygame.draw.circle(screen, (0, 0, 255), (250, 250), 75)
@@ -341,8 +365,14 @@ while running:
 
     printLevelInfo(level)
 
-    getUserInput(level)
+    # in the future we need to change dx or dy depending on how the user enters input
+    dy = getUserInput(level)
+    if dy != None:
+        animateBallMovement(level)
 
+    
+    #if <ball at correct location>
+    currentLevel += 1
     #wait()
 
 
