@@ -202,8 +202,7 @@ def animateBallMovement(level):
     global ballx
     global bally
     global inMotion
-    print('dx = ', dx)
-    print('dy = ', dy)
+    
     numFrames = 60 #animate movement over 60 frames (2 seconds prob)
     destX = ballx + dx
     destY = bally + dy
@@ -338,7 +337,7 @@ def drawGridLines(minX, maxX, minY, maxY, mode):
 
 def drawField(level):
     mode = level.type
-    print(mode)
+    #print(mode)
     #global flagRect
     # Fill the background with white
     screen.fill(white)
