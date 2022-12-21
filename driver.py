@@ -50,7 +50,7 @@ def getUserInput(lvl, equ):
         validNums.remove(enteredNums[i])
 
     # make sure the user entered only valid operations
-    enteredOps = re.split('\d+', equ)
+    enteredOps = re.split(' |\d+', equ)
     for i in range(0, len(enteredOps)):
         if not enteredOps[i] == '' and not enteredOps[i] in lvl.operations:
             print('Invalid input, please try again!')

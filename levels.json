@@ -258,11 +258,11 @@
             "end_text": "What was that?",
             "operations": [
                 "^",
-                "+"
+                "-"
             ],
             "numbers": [
                 "2",
-                "-2"
+                "2"
             ],
             "goal": {
                 "x": 0,
