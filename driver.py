@@ -39,15 +39,14 @@ def loadLevels(filename):
         thisLevel = level.Level.from_json(levelData["levels"][i])
         levels.append(thisLevel)
 
-def getUserInput(lvl, equ):
-    print('Enter an equation with the provided numbers and operations:')
-   
+def getUserInput(lvl, equ):   
     # make sure the user entered only valid numbers
     enteredNums = re.split(' |\+|\-|\*|/|\^', equ)
-    validNums = lvl.numbers # create copy of valid numbers to make sure you can only use them the number of times allowed
+    validNums = lvl.numbers[:] # create copy of valid numbers to make sure you can only use them the number of times allowed
+    print(lvl.numbers)
     for i in range(0, len(enteredNums)):
         if not enteredNums[i] in validNums:
-            print('Invalid input, please try again!')
+            print('Invalid input, please try again! 1')
             return None
         validNums.remove(enteredNums[i])
 
@@ -73,8 +72,8 @@ def getUserInput(lvl, equ):
 
 # Starting pygame stuff
 pygame.init()
-resx = 800
-resy = 800
+resx = 600
+resy = 600
 
 # (current) Game boundary
 minX, minY, maxX, maxY = -10, -10, 10, 10
