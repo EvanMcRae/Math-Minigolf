@@ -23,6 +23,9 @@ currentLevel = 0
 
 ballx = 0
 bally = 0
+dx = 0
+dy = 0
+
 
 # Utility functions go here
 def loadLevels(filename):
@@ -189,9 +192,9 @@ def drawTextAt(text, x, y, size=20):
     offsetCoords = (coords[0] - offsetX, coords[1] - offsetY)    
     screen.blit(renderedText, offsetCoords)
 
+
 def drawNumberAt(number, x, y):
     drawTextAt(str(number), x, y)
-
     
 
 def drawGridLines(minX, maxX, minY, maxY, mode):
@@ -236,7 +239,7 @@ def drawGridLines(minX, maxX, minY, maxY, mode):
     for l in labelsY:        
         drawNumberAt(l, 0, l)
     
-
+    
     for xcoord in labelsX:
         for ycoord in labelsY:          
 
@@ -264,9 +267,6 @@ def drawGridLines(minX, maxX, minY, maxY, mode):
 
     #draw_line_dashed(surf, black, (maxX - minX, minY), (maxX - minX, maxY), dash_length=2)
     
-
-    
-
 
 def drawField(level):
     mode = level.type
@@ -334,9 +334,9 @@ while running:
 
     printLevelInfo(level)
 
-    #getUserInput(levels[currentLevel])
+    getUserInput(level)
 
-    wait()
+    #wait()
 
 
 # Done! Time to quit.
@@ -388,3 +388,13 @@ print(z)
 z += 10
 
 print(z)
+
+
+#nicer grid code:
+# draw = True
+#     for x in range(0, resx, int(resx/maxX/2)):
+#         for y in range(0, resy, int(resy/maxY/2)):
+#             if draw:
+#                 pygame.draw.rect(screen, (9,140,9), [x, y, (resx/maxX/2), (resy/maxY/2)])
+#             draw = not draw
+#         draw = not draw
