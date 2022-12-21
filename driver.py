@@ -9,6 +9,7 @@ os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 import pygame
 import json
 import level
+import copy
 from pygame.locals import *
 
 import warnings
@@ -28,6 +29,7 @@ bally = 0
 dx = 0
 dy = 0
 inMotion = False
+restartLevel = False
 
 # Utility functions go here
 def loadLevels(filename):
@@ -436,19 +438,23 @@ running = True
 loadLevels('levels.json')
 
 while running:
-    level = levels[currentLevel]
+
     deltas = None
 
-    if curLevel != currentLevel:
+    if curLevel != currentLevel or restartLevel:
+        level = copy.deepcopy(levels[currentLevel])
+        if restartLevel:
+            print('You ran out of moves! Try again.') #TODO turn into popup?
+            #TODO also maybe have a different message if you went into negatives on a natural level
+            restartLevel = False
         
         #reset ball location
         ballx = 0
         bally = 0
         drawField(level)
-
         curLevel = currentLevel
     
-        print('levle nums = ', level.numbers)
+    
 
     # Did the user click the window close button?
     for event in pygame.event.get():
@@ -513,8 +519,10 @@ while running:
             doneLevel = checkFinishedLevel(level)
             print('done level = ', doneLevel)
             user_text = ""
-            if(doneLevel):
+            if doneLevel:
                 currentLevel += 1
+            elif len(level.numbers) == 0:
+                restartLevel = True
    
     clock.tick(10)
     
