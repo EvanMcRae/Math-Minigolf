@@ -227,7 +227,7 @@ x = 5
 y = 3
 
 # converting x and y into complex number
-z = complex(x,y);
+z = complex(x,y)
 
 print(z)
 
