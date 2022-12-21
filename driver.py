@@ -4,7 +4,8 @@
 import pygame
 import json
 import level
-from pygame.locals import *import re
+from pygame.locals import *
+import re
 
 
 # Global variables here
@@ -54,6 +55,11 @@ def getUserInput(lvl):
 pygame.init()
 resx = 800
 resy = 800
+
+#colors
+black = (0,0,0)
+white = (255,255,255)
+
 # Set up the drawing window
 screen = pygame.display.set_mode([resx, resy])
 
@@ -89,10 +95,37 @@ def wait():
             if event.type == KEYDOWN and event.key == K_f:
                 return
 
-# Draws img at x and y location on screen. Treats 0,0 as the center of the screen.
-def drawAt(img, rect, x,y):
+def getScreenCoords(x,y):
     screenX = x + resx / 2
     screenY = -y + resy / 2
+    return (screenX, screenY)
+    
+
+# Adapted from https://codereview.stackexchange.com/questions/70143/drawing-a-dashed-line-with-pygame
+import numpy  as np
+def draw_line_dashed(surface, color, start_pos, end_pos, width = 1, dash_length = 10, exclude_corners = True):
+
+    # convert tuples to numpy arrays
+    start_pos = np.array(start_pos)
+    end_pos   = np.array(end_pos)
+
+    # get euclidian distance between start_pos and end_pos
+    length = np.linalg.norm(end_pos - start_pos)
+
+    # get amount of pieces that line will be split up in (half of it are amount of dashes)
+    dash_amount = int(length / dash_length)
+
+    # x-y-value-pairs of where dashes start (and on next, will end)
+    dash_knots = np.array([np.linspace(start_pos[i], end_pos[i], dash_amount) for i in range(2)]).transpose()
+
+    return [pygame.draw.line(surface, color, tuple(dash_knots[n]), tuple(dash_knots[n+1]), width)
+            for n in range(int(exclude_corners), (dash_amount - int(exclude_corners)), 8)]
+
+
+# Draws img at x and y location on screen. Treats 0,0 as the center of the screen.
+def drawAt(img, rect, x,y):
+    screenX, screenY = getScreenCoords(x,y)
+
     offsetX = rect.width / 2
     offsetY = rect.height / 2
     rect = rect.move(screenX - offsetX, screenY - offsetY)
@@ -109,21 +142,85 @@ def animateBallMovement(destination):
     # We could scale this as needed, using
     print()
 
+
+# Draws the text on the screen such that the center of the text's bounding box
+def drawTextAt(text, x, y, size=20):
+    font = pygame.font.SysFont('arial', size)
+    renderedText = font.render(text, True, (0, 0, 0))
+    offsetX = renderedText.get_width() / 2
+    offsetY = renderedText.get_height() / 2
+    screen.blit(renderedText, getScreenCoords(x - offsetX, y + offsetY))
+
+def drawNumberAt(number, x, y):
+    drawTextAt(str(number), x, y)
+
+    
+
+def drawGridLines(minX, maxX, minY, maxY, mode):
+    numLabels = 21 #20 labels each way
+    spacingX = resx / numLabels
+    spacingY = resy / numLabels
+
+    labelsX = []
+    labelsY = []
+
+    if mode == "natural":
+        numLabels = 11
+        for i in range (maxX + 1):
+            labelsX.append(i)
+
+        for i in range (maxY + 1):
+            labelsY.append(i)
+        
+
+    if mode == "integer":
+        for i in range (minX, maxX + 1):
+            labelsX.append(i)
+
+        for i in range (minY, maxY + 1):
+            labelsY.append(i)
+        print()
+
+    if mode == "real":
+        print()
+
+    if mode == "rational":
+        print()
+    
+    if mode == "imaginary":
+        print()
+    
+    
+    for l in labelsX:
+        if l != 0:
+            drawNumberAt(l, spacingX * l, -10)
+    
+    for l in labelsY:        
+        drawNumberAt(l, -10, spacingY * l)
+    
+    draw_line_dashed(screen, black, (resx / 2, 0), (resx / 2, resy), dash_length=2)
+    draw_line_dashed(screen, black, (0, resy / 2), (resx, resy / 2), dash_length=2)
+
+
 def drawField(level):
-    print(level)
-    global flagRect
+    mode = level.mode
+    #global flagRect
     # Fill the background with white
-    screen.fill((255, 255, 255))
+    screen.fill(white)
 
     # Draw blank field
     screen.blit(fieldImg, fieldRect)
     
     # Draw flag
-    drawAt(flagImg, flagRect, level.goal["x"], level.goal["y"])
+    flagX = level.goal["x"]
+    flagY = level.goal["y"]
+
+    drawAt(flagImg, flagRect, flagX, flagY)
+    drawTextAt("flag", flagX, flagY + flagRect.height / 1.5)
 
     # Draw ball
     drawAt(ballImg, ballRect, ballx, bally)
-
+    drawTextAt("", flagX, flagY + ballRect.height / 1.5)
    
 
 
@@ -152,7 +249,9 @@ while running:
 
     # draw current  level data
     drawField(levels[currentLevel])
-    
+    #drawGridLines(-10, 10, -10, 10, mode=level.type)
+    drawGridLines(-10, 10, -10, 10, "integer")
+
     # Draw a solid blue circle in the center
     #pygame.draw.circle(screen, (0, 0, 255), (250, 250), 75)
 
@@ -164,7 +263,9 @@ while running:
     print(levels[currentLevel].startText)
     print('Operations: ' + str(levels[currentLevel].operations)[1:-1])
     print('Numbers: ' + str(levels[currentLevel].numbers)[1:-1])
-    getUserInput(levels[currentLevel])
+    #getUserInput(levels[currentLevel])
+
+    wait()
 
 
 # Done! Time to quit.
