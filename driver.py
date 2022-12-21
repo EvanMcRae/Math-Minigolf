@@ -1,7 +1,7 @@
 # Random ideas/notes
 # Cool to have multiple sprites for the flag so it can wave a bit (animation)
 from fractions import Fraction
-
+import types
 import sys
 import os
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
@@ -57,9 +57,9 @@ def getUserInput(lvl, equ):
         
         #check that the number entered is still in the list of options.
         for num in lvl.numbers:
-            if complex(num) == enteredNum: #true when user entered a valid number
-                lvl.numbers.remove(equ)
-                return complex(num)
+            if complex(num.replace('i','j')) == enteredNum: #true when user entered a valid number
+                lvl.numbers.remove(equ.replace('j','i'))
+                return enteredNum
         
         #didn't find match in valid numbers list
         print('Invalid input, please try again! C')
@@ -201,7 +201,8 @@ def animateBallMovement(level):
     global ballx
     global bally
     global inMotion
-
+    print('dx = ', dx)
+    print('dy = ', dy)
     numFrames = 60 #animate movement over 60 frames (2 seconds prob)
     destX = ballx + dx
     destY = bally + dy
@@ -499,12 +500,8 @@ while running:
     doneLevel = False
 
     if not doneLevel:
-        # in the future we need to change dx or dy depending on how the user enters input
-        if deltas != None:                
-            #we want this later.
-            #dx, dy = deltas    
-
-            #for now we do this
+        if deltas != None:        
+            
             if(isinstance(deltas, complex)):
                 dx = deltas.real
                 dy = deltas.imag
@@ -512,7 +509,7 @@ while running:
                 dy = deltas 
 
             #display this move
-            if(currentLevel != 0): #we don't move on the first level
+            if(dx != 0 or dy != 0): #we don't move on the first level
                 animateBallMovement(level)
 
             #check if we're done with this level
