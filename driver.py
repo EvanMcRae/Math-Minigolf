@@ -219,7 +219,7 @@ def drawGridLines(minX, maxX, minY, maxY, mode):
 
 
 def drawField(level):
-    mode = level.mode
+    mode = level.type
     #global flagRect
     # Fill the background with white
     screen.fill(white)
@@ -237,6 +237,7 @@ def drawField(level):
     # Draw ball
     drawAt(ballImg, ballRect, ballx, bally)
     drawTextAt("", flagX, flagY + ballRect.height / 1.5)
+
 def printLevelInfo(lvl):
     # very temporary
     print('Level ' + str(lvl.number) + ':')
@@ -258,7 +259,7 @@ clock = pygame.time.Clock()
 running = True
 loadLevels('levels.json')
 while running:
-    
+    level = levels[currentLevel]
 
     # Did the user click the window close button?
     for event in pygame.event.get():
@@ -269,9 +270,9 @@ while running:
     screen.fill((255, 255, 255))
 
     # draw current level data
-    drawField(levels[currentLevel])
-    #drawGridLines(-10, 10, -10, 10, mode=level.type)
-    drawGridLines(-10, 10, -10, 10, "integer")
+    drawField(level)
+    drawGridLines(-10, 10, -10, 10, level.type)
+    #drawGridLines(-10, 10, -10, 10, "integer")
 
     # Draw a solid blue circle in the center
     #pygame.draw.circle(screen, (0, 0, 255), (250, 250), 75)
@@ -279,7 +280,7 @@ while running:
     # Flip (update) the display
     pygame.display.flip()
 
-    printLevelInfo(levels[currentLevel])
+    printLevelInfo(level)
 
     #getUserInput(levels[currentLevel])
 
