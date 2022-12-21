@@ -190,13 +190,17 @@ def animateBallMovement(level):
 
 
     #animate with linear motion for now:
-    for frame in range(numFrames):
+    for frame in range(numFrames + 1):
         t = frame / numFrames
         ballx = startX + t * dx
         bally = startY + t * dy
         drawField(level)
         pygame.display.flip()
         clock.tick(30)
+
+    #account for round off errors
+    ballx = destX
+    bally = destY
 
     print()
 
@@ -325,14 +329,23 @@ def printLevelInfo(lvl):
     print('Numbers: ' + str(lvl.numbers)[1:-1])
 
     print('Goal location: ',end='')
-    
+
     #if(lvl.type == "natural" or lvl.type == "integer"):
     print("({}, {})".format(lvl.goal["x"], lvl.goal["y"]))
 
 
 
+#checks if the ball is within a small neighborhood of the goal. This is for checking floating point goal locations
+def checkFinishedLevel(level):
+    ep = 0.00001
+    flagX = level.goal["x"]
+    flagY = level.goal["y"]
 
-
+    if ballx > flagX - ep and ballx < flagX + ep and bally > flagY - ep and bally < flagY + ep:
+        return True
+    print('ball y = ', bally)
+    print('flagy = ', flagY)
+    return False
 
 # Main loop here
 # Run until the user asks to quit
@@ -350,25 +363,41 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-    # Fill the background with white
-    screen.fill((255, 255, 255))
+    
+    printLevelInfo(level)
+
+    #reset ball location
+    ballx = 0
+    bally = 0
 
     # draw current level data
     drawField(level)
     #drawGridLines(-10, 10, -10, 10, level.type)
 
-    # Draw a solid blue circle in the center
-    #pygame.draw.circle(screen, (0, 0, 255), (250, 250), 75)
-
     # Flip (update) the display
     pygame.display.flip()
+    doneLevel = False
 
-    printLevelInfo(level)
+    while (not doneLevel):
+        # in the future we need to change dx or dy depending on how the user enters input
 
-    # in the future we need to change dx or dy depending on how the user enters input
-    dy = getUserInput(level)
-    if dy != None:
+        deltas = getUserInput(level)
+        #prompt for input until we get something good
+        while deltas == None:
+            deltas = getUserInput(level)
+
+        #we want this later.
+        #dx, dy = deltas    
+
+        #for now we do this
+        dy = deltas 
+
+        #display this move
         animateBallMovement(level)
+
+        #check if we're done with this level
+        doneLevel = checkFinishedLevel(level)
+        print('done level = ', doneLevel)
 
     
     #if <ball at correct location>
