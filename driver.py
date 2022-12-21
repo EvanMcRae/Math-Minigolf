@@ -1,11 +1,19 @@
 # Random ideas/notes
 # Cool to have multiple sprites for the flag so it can wave a bit (animation)
 
+import os
+os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
+
 import pygame
 import json
 import level
 from pygame.locals import *
+
+import warnings
+warnings.filterwarnings("ignore", category=DeprecationWarning) 
+
 import re
+import parser
 
 
 # Global variables here
@@ -17,7 +25,7 @@ ballx = 0
 bally = 0
 
 # Utility functions go here
-def loadLevels(filename): # provide levels.json here
+def loadLevels(filename):
     with open(filename, 'r') as inFile:
         levelData = json.load(inFile)
         inFile.close()
@@ -26,30 +34,38 @@ def loadLevels(filename): # provide levels.json here
         thisLevel = level.Level.from_json(levelData["levels"][i])
         levels.append(thisLevel)
 
-def parseInput(input):
-    print()
-
 def getUserInput(lvl):
     print('Enter an equation with the provided numbers and operations:')
     equ = input()
+   
+    # make sure the user entered only valid numbers
     enteredNums = re.split(' |\+|\-|\*|/|\^', equ)
-    print(enteredNums)
-    validNums = lvl.numbers
-
+    validNums = lvl.numbers # create copy of valid numbers to make sure you can only use them the number of times allowed
     for i in range(0, len(enteredNums)):
-
         if not enteredNums[i] in validNums:
             print('Invalid input, please try again!')
             return None
         validNums.remove(enteredNums[i])
 
-    print('valid')
-    return equ
+    # make sure the user entered only valid operations
+    enteredOps = re.split('\d+', equ)
+    for i in range(0, len(enteredOps)):
+        if not enteredOps[i] == '' and not enteredOps[i] in lvl.operations:
+            print('Invalid input, please try again!')
+            return None
 
-
-
-
-
+    # make sure the equation can actually evaluate to something
+    equ = equ.replace('^','**')
+    try:
+        formula = parser.expr(equ).compile()
+    except:
+        print('Invalid input, please try again!')
+        return None
+    
+    value = eval(formula)
+    print('Entered value: ' + str(value))
+    lvl.numbers = validNums # consumes used numbers
+    return value
 
 # Starting pygame stuff
 pygame.init()
@@ -221,7 +237,12 @@ def drawField(level):
     # Draw ball
     drawAt(ballImg, ballRect, ballx, bally)
     drawTextAt("", flagX, flagY + ballRect.height / 1.5)
-   
+def printLevelInfo(lvl):
+    # very temporary
+    print('Level ' + str(lvl.number) + ':')
+    print(lvl.startText)
+    print('Operations: ' + str(lvl.operations)[1:-1])
+    print('Numbers: ' + str(lvl.numbers)[1:-1])
 
 
 
@@ -247,7 +268,7 @@ while running:
     # Fill the background with white
     screen.fill((255, 255, 255))
 
-    # draw current  level data
+    # draw current level data
     drawField(levels[currentLevel])
     #drawGridLines(-10, 10, -10, 10, mode=level.type)
     drawGridLines(-10, 10, -10, 10, "integer")
@@ -258,11 +279,8 @@ while running:
     # Flip (update) the display
     pygame.display.flip()
 
-    
+    printLevelInfo(levels[currentLevel])
 
-    print(levels[currentLevel].startText)
-    print('Operations: ' + str(levels[currentLevel].operations)[1:-1])
-    print('Numbers: ' + str(levels[currentLevel].numbers)[1:-1])
     #getUserInput(levels[currentLevel])
 
     wait()
@@ -295,7 +313,6 @@ pygame.quit()
 
 # Once out of moves, display end text for an amount of time or until user input.
 
-import parser
 from math import sin
 
 formula = "1x,2y"
@@ -311,7 +328,7 @@ x = 5
 y = 3
 
 # converting x and y into complex number
-z = complex(x,y);
+z = complex(x,y)
 
 print(z)
 
