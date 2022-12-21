@@ -266,21 +266,13 @@ def drawGridLines(minX, maxX, minY, maxY, mode):
 
     if mode == "rational":
         print()
-    
-    imaginary = False
 
-    if mode == "imaginary":
-        imaginary = True
-
-    if mode == "complex":
-        imaginary = True
-    
     for l in labelsX:
         if l != 0:
             drawNumberAt(l, l, 0)
     
     for l in labelsY:        
-        drawNumberAt(l, 0, l, imaginary)
+        drawNumberAt(l, 0, l, mode == "complex")
     
     
     for xcoord in labelsX:
@@ -327,11 +319,8 @@ def drawField(level):
     flagX = level.goal["x"]
     flagY = level.goal["y"]
 
-    imaginary = False
-    if mode == "imaginary" or mode == "complex": imaginary = True
-
     drawAt(flagImg, flagRect, flagX, flagY)
-    flagPosString = str(Fraction(flagX).limit_denominator()) + " " + str(Fraction(flagY).limit_denominator()) + ('i' if imaginary else '')
+    flagPosString = str(Fraction(flagX).limit_denominator()) + " " + str(Fraction(flagY).limit_denominator()) + ('i' if mode == "complex" else '')
     drawTextAt(flagPosString, flagX+.5, flagY+3)
     
 
@@ -339,7 +328,7 @@ def drawField(level):
     drawAt(ballImg, ballRect, ballx, bally)
     if not inMotion:
         #if mode == ""
-        ballPosString = str(Fraction(ballx).limit_denominator()) + " " + str(Fraction(bally).limit_denominator()) + ('i' if imaginary else '')
+        ballPosString = str(Fraction(ballx).limit_denominator()) + " " + str(Fraction(bally).limit_denominator()) + ('i' if mode == "complex" else '')
         drawTextAt(ballPosString, ballx+.5, bally+.5)
 
 
