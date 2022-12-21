@@ -69,17 +69,18 @@ def getUserInput(lvl, equ):
 
 
     # make sure the user entered only valid numbers
-    enteredNums = re.split(' |\+|\-|\*|/|\^', equ)
+    enteredNums = re.split(' |\+|\-|\*|/|\^|\(|\)', equ)
     validNums = lvl.numbers[:] # create copy of valid numbers to make sure you can only use them the number of times allowed
     print(lvl.numbers)
     for i in range(0, len(enteredNums)):
-        if not enteredNums[i] in validNums:
-            print('Invalid input, please try again! 1')
-            return None
-        validNums.remove(enteredNums[i])
+        if not enteredNums[i] == '':
+            if not enteredNums[i] in validNums:
+                print('Invalid input, please try again! 1')
+                return None
+            validNums.remove(enteredNums[i])
 
     # make sure the user entered only valid operations
-    enteredOps = re.split(' |\d+', equ)
+    enteredOps = re.split(' |\d+|\(|\)', equ)
     for i in range(0, len(enteredOps)):
         if not enteredOps[i] == '' and not enteredOps[i] in lvl.operations:
             print('Invalid input, please try again!')
