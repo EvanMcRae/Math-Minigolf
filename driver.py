@@ -169,7 +169,7 @@ def drawAt(img, rect, x,y):
 
 
 # We might want to make this apart of the ball class
-def animateBallMovement(destination):
+def animateBallMovement():
     #would probably be good to solve an ODE to calcuclate ball path that looks good (realistic friction) and ends up at the right location.
     #If that's too difficult, something that looks DECENT is: 
     # k = 2.9
@@ -274,9 +274,11 @@ def drawField(level):
     # Fill the background with white
     screen.fill(white)
 
-    # Draw blank field    
+    # Draw blank field
     screen.blit(fieldImg, fieldRect)
     
+    drawGridLines(-10, 10, -10, 10, "natural")
+
     # Draw flag
     flagX = level.goal["x"]
     flagY = level.goal["y"]
@@ -324,7 +326,6 @@ while running:
     # draw current level data
     drawField(level)
     #drawGridLines(-10, 10, -10, 10, level.type)
-    drawGridLines(-10, 10, -10, 10, "integer")
 
     # Draw a solid blue circle in the center
     #pygame.draw.circle(screen, (0, 0, 255), (250, 250), 75)
@@ -334,7 +335,10 @@ while running:
 
     printLevelInfo(level)
 
-    getUserInput(level)
+    # in the future we need to change dx or dy depending on how the user enters input
+    dy = getUserInput(level)
+    if dy != None:
+        animateBallMovement()
 
     #wait()
 
