@@ -184,29 +184,34 @@ def animateBallMovement(level):
     startY = bally
 
     #would probably be good to solve an ODE to calcuclate ball path that looks good (realistic friction) and ends up at the right location.
-    #If that's too difficult, something that looks DECENT is: 
-    # k = 2.9
-    # x coord = 1/(t^k)
-    # t = [2, 10]. t is the time step of the animation.
-    # We could scale this as needed, using
+    
 
     
     inMotion = True
     #animate with linear motion for now:
     for frame in range(numFrames + 1):
-        t = frame / numFrames
-        ballx = startX + t * dx
-        bally = startY + t * dy
+        t = (frame / numFrames) * 8 + 2
+        
+        #linear movement
+        #ballx = startX + t * dx
+        #bally = startY + t * dy
+
+        ballx = startX + (1/.4) * (-dx/(t) + .5*dx)
+        bally = startY + (1/.4) * (-dy/(t) + .5*dy)
+
         drawField(level)
         pygame.display.flip()
         clock.tick(30)
 
-    inMotion = False
-    drawField(level)
-
     #account for round off errors
     ballx = destX
     bally = destY
+
+    inMotion = False
+    
+    drawField(level)
+
+    
 
     print()
 
@@ -381,7 +386,7 @@ color_active = pygame.Color('lightskyblue3')
 # color of input box.
 color_passive = pygame.Color('chartreuse4')
 color = color_passive
-active = False
+active = True
 def updateTextBox():
     if active:
         color = color_active
@@ -472,7 +477,8 @@ while running:
             dy = deltas 
 
             #display this move
-            animateBallMovement(level)
+            if(currentLevel != 0): #we don't move on the first level
+                animateBallMovement(level)
 
             #check if we're done with this level
             doneLevel = checkFinishedLevel(level)
