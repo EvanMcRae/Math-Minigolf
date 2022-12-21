@@ -37,9 +37,8 @@ def loadLevels(filename):
         thisLevel = level.Level.from_json(levelData["levels"][i])
         levels.append(thisLevel)
 
-def getUserInput(lvl):
+def getUserInput(lvl, equ):
     print('Enter an equation with the provided numbers and operations:')
-    equ = input()
    
     # make sure the user entered only valid numbers
     enteredNums = re.split(' |\+|\-|\*|/|\^', equ)
@@ -390,7 +389,7 @@ while running:
         #dx, dy = deltas    
 
         #for now we do this
-        dy = deltas 
+        dy = deltas
 
         #display this move
         animateBallMovement(level)
