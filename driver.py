@@ -1,5 +1,7 @@
 # Random ideas/notes
 # Cool to have multiple sprites for the flag so it can wave a bit (animation)
+from fractions import Fraction
+
 import sys
 import os
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
@@ -25,7 +27,7 @@ ballx = 0
 bally = 0
 dx = 0
 dy = 0
-
+inMotion = False
 
 # Utility functions go here
 def loadLevels(filename):
@@ -172,6 +174,8 @@ def drawAt(img, rect, x,y):
 def animateBallMovement(level):
     global ballx
     global bally
+    global inMotion
+
     numFrames = 60 #animate movement over 60 frames (2 seconds prob)
     destX = ballx + dx
     destY = bally + dy
@@ -186,8 +190,8 @@ def animateBallMovement(level):
     # t = [2, 10]. t is the time step of the animation.
     # We could scale this as needed, using
 
-
-
+    
+    inMotion = True
     #animate with linear motion for now:
     for frame in range(numFrames + 1):
         t = frame / numFrames
@@ -196,6 +200,9 @@ def animateBallMovement(level):
         drawField(level)
         pygame.display.flip()
         clock.tick(30)
+
+    inMotion = False
+    drawField(level)
 
     #account for round off errors
     ballx = destX
@@ -317,7 +324,10 @@ def drawField(level):
 
     # Draw ball
     drawAt(ballImg, ballRect, ballx, bally)
-    drawTextAt("", flagX, flagY + ballRect.height / 1.5)
+    if not inMotion:
+        #if mode == ""
+        ballPosString = str(Fraction(ballx).limit_denominator()) + " " + str(Fraction(bally).limit_denominator())
+        drawTextAt(ballPosString, ballx+.5, bally+.5)
 
 
 def printLevelInfo(lvl):
@@ -342,8 +352,8 @@ def checkFinishedLevel(level):
 
     if ballx > flagX - ep and ballx < flagX + ep and bally > flagY - ep and bally < flagY + ep:
         return True
-    print('ball y = ', bally)
-    print('flagy = ', flagY)
+    #print('ball y = ', bally)
+    #print('flagy = ', flagY)
     return False
 
 # Main loop here
@@ -394,6 +404,7 @@ def updateTextBox():
 curLevel = prevLevel = -1
 running = True
 loadLevels('levels.json')
+
 while running:
     level = levels[currentLevel]
     deltas = None
@@ -430,7 +441,7 @@ while running:
                 user_text = ""
 
             # Check for backspace
-            if event.key == pygame.K_BACKSPACE:
+            elif event.key == pygame.K_BACKSPACE:
                 
                 # get text input from 0 to -1 i.e. end.
                 user_text = user_text[:-1]
@@ -453,14 +464,6 @@ while running:
 
     if not doneLevel:
         # in the future we need to change dx or dy depending on how the user enters input
-
-        
-        #prompt for input until we get something good
-        #if deltas == None:
-            #drawField(level)
-        
-            #deltas = getUserInput(level)
-            
         if deltas != None:                
             #we want this later.
             #dx, dy = deltas    
@@ -477,13 +480,7 @@ while running:
             user_text = ""
             if(doneLevel):
                 currentLevel += 1
-
-    
-        #if <ball at correct location>
-        
-        #wait()
-    
-        
+   
     clock.tick(10)
     
 
