@@ -8,7 +8,6 @@ import pygame
 import json
 import level
 from pygame.locals import *
-import threading
 
 import warnings
 warnings.filterwarnings("ignore", category=DeprecationWarning) 
@@ -19,10 +18,8 @@ import parser
 
 # Global variables here
 levels = []
-currentLevel = None
-currentNum = 0
-loadedLevel = False
-receivedInput = False
+currentMove = ''
+currentLevel = 0
 
 ballx = 0
 bally = 0
@@ -173,7 +170,7 @@ def drawAt(img, rect, x,y):
 
 
 # We might want to make this apart of the ball class
-def animateBallMovement():
+def animateBallMovement(level):
     global ballx
     global bally
     numFrames = 60 #animate movement over 60 frames (2 seconds prob)
@@ -197,7 +194,7 @@ def animateBallMovement():
         t = frame / numFrames
         ballx = startX + t * dx
         bally = startY + t * dy
-        drawField(currentLevel)
+        drawField(level)
         pygame.display.flip()
         clock.tick(30)
 
@@ -300,8 +297,8 @@ def drawGridLines(minX, maxX, minY, maxY, mode):
     #draw_line_dashed(surf, black, (maxX - minX, minY), (maxX - minX, maxY), dash_length=2)
     
 
-def drawField():
-    mode = currentLevel.type
+def drawField(level):
+    mode = level.type
     #global flagRect
     # Fill the background with white
     screen.fill(white)
@@ -309,11 +306,11 @@ def drawField():
     # Draw blank field
     screen.blit(fieldImg, fieldRect)
     
-    drawGridLines(-10, 10, -10, 10, mode)
+    drawGridLines(-10, 10, -10, 10, "natural")
 
     # Draw flag
-    flagX = currentLevel.goal["x"]
-    flagY = currentLevel.goal["y"]
+    flagX = level.goal["x"]
+    flagY = level.goal["y"]
 
     drawAt(flagImg, flagRect, flagX, flagY)
     drawTextAt("flag", flagX, flagY + flagRect.height / 1.5)
@@ -324,35 +321,25 @@ def drawField():
     drawTextAt("", flagX, flagY + ballRect.height / 1.5)
 
 
-def printLevelInfo():
+def printLevelInfo(lvl):
     # very temporary
-    print('Level ' + str(currentLevel.number) + ':')
-    print(currentLevel.startText)
-    print('Operations: ' + str(currentLevel.operations)[1:-1])
-    print('Numbers: ' + str(currentLevel.numbers)[1:-1])
+    print('Level ' + str(lvl.number) + ':')
+    print(lvl.startText)
+    print('Operations: ' + str(lvl.operations)[1:-1])
+    print('Numbers: ' + str(lvl.numbers)[1:-1])
 
     print('Goal location: ',end='')
 
-    #if(currentLevel.type == "natural" or currentLevel.type == "integer"):
-    print("({}, {})".format(currentLevel.goal["x"], currentLevel.goal["y"]))
+    #if(lvl.type == "natural" or lvl.type == "integer"):
+    print("({}, {})".format(lvl.goal["x"], lvl.goal["y"]))
 
-def inputMove():
-    deltas = getUserInput(currentLevel)
-    #prompt for input until we get something good
-    while deltas == None:
-        deltas = getUserInput(level)
 
-    # we want this later.
-    # dx, dy = deltas    
-
-    # for now we do this
-    dy = deltas
 
 #checks if the ball is within a small neighborhood of the goal. This is for checking floating point goal locations
-def checkFinishedLevel():
+def checkFinishedLevel(level):
     ep = 0.00001
-    flagX = currentLevel.goal["x"]
-    flagY = currentLevel.goal["y"]
+    flagX = level.goal["x"]
+    flagY = level.goal["y"]
 
     if ballx > flagX - ep and ballx < flagX + ep and bally > flagY - ep and bally < flagY + ep:
         return True
@@ -368,39 +355,53 @@ clock = pygame.time.Clock()
 
 running = True
 loadLevels('levels.json')
-
 while running:
+    level = levels[currentLevel]
+
     # Did the user click the window close button?
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
 
-    if (not loadedLevel):
-        currentLevel = levels[currentNum]
-        printLevelInfo()
-        ballx = 0
-        bally = 0
+    
+    printLevelInfo(level)
 
-    loadedLevel = True
+    #reset ball location
+    ballx = 0
+    bally = 0
 
-    inputThread = threading.Thread(target=inputMove)
-    inputThread.start()
+    # draw current level data
+    drawField(level)
+    #drawGridLines(-10, 10, -10, 10, level.type)
 
     # Flip (update) the display
     pygame.display.flip()
-    
-    if (receivedInput):
+    doneLevel = False
+
+    while (not doneLevel):
+        # in the future we need to change dx or dy depending on how the user enters input
+
+        deltas = getUserInput(level)
+        #prompt for input until we get something good
+        while deltas == None:
+            deltas = getUserInput(level)
+
+        #we want this later.
+        #dx, dy = deltas    
+
+        #for now we do this
+        dy = deltas 
+
         #display this move
-        animateBallMovement()
+        animateBallMovement(level)
 
         #check if we're done with this level
-        doneLevel = checkFinishedLevel()
+        doneLevel = checkFinishedLevel(level)
         print('done level = ', doneLevel)
-    
-    if (doneLevel):
-        currentNum += 1
-        loadedLevel = False
 
+    
+    #if <ball at correct location>
+    currentLevel += 1
     #wait()
 
 
