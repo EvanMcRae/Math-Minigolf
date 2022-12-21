@@ -525,7 +525,7 @@ while running:
             user_text = ""
             if doneLevel:
                 currentLevel += 1
-            elif len(level.numbers) == 0:
+            elif len(level.numbers) == 0 and not inMotion:
                 restartLevel = True
             elif level.type == "natural" and (ballx < 0 or bally < 0) and not inMotion:
                 restartNegative = True
