@@ -67,6 +67,8 @@ def checkSpecialNumber(num):
                 if(checkClose(num, m * s)):
                     if(m == 1):
                         return stringRepresentations[c]
+                    elif(m == -1):
+                        return "-" + stringRepresentations[c]
                     else:
                         return "{}".format(m) + stringRepresentations[c]
         c += 1
