@@ -354,41 +354,39 @@ def drawGridLines(minX, maxX, minY, maxY, mode):
     if mode == "complex":
         print()
     
+    if mode == "complex":
+        for l in labelsY:        
+            drawNumberAt(l, 0, l, mode == "complex")
+        for l in labelsX:
+            if l != 0:
+                drawNumberAt(l, l, 0)
+    else:
+        for l in labelsY:        
+            drawNumberAt(l, -.5, l, mode == "complex")
     
-    for l in labelsX:
-        if l != 0:
-            drawNumberAt(l, l, 0)
-    
-    for l in labelsY:        
-        drawNumberAt(l, 0, l, mode == "complex")
-    
-    
-    for xcoord in labelsX:
-        for ycoord in labelsY:          
+    if mode != "complex":       
+         #for ycoord in labelsY:          
 
-            #draw vertical line
-            start = (xcoord, 0)
-            end = (xcoord, ycoord)            
-            pygame.draw.line(screen, black, getScreenCoordsTup(start), getScreenCoordsTup(end), 1) 
-            #print('start: ', getScreenCoordsTup(start))
+        #draw vertical line
+        start = (0 / 2, 10)
+        end = (0 / 2, 0)            
+        pygame.draw.line(screen, black, getScreenCoordsTup(start), getScreenCoordsTup(end), 1) 
+        #print('start: ', getScreenCoordsTup(start))
+    else:          
+        for xcoord in labelsX:
+            for ycoord in labelsY:          
 
-            #draw horizontal line
-            start = (0, ycoord)
-            end = (xcoord, ycoord)            
-            pygame.draw.line(screen, black, getScreenCoordsTup(start), getScreenCoordsTup(end), 1) 
+                #draw vertical line
+                start = (xcoord, 0)
+                end = (xcoord, ycoord)            
+                pygame.draw.line(screen, black, getScreenCoordsTup(start), getScreenCoordsTup(end), 1) 
+                #print('start: ', getScreenCoordsTup(start))
 
+                #draw horizontal line
+                start = (0, ycoord)
+                end = (xcoord, ycoord)            
+                pygame.draw.line(screen, black, getScreenCoordsTup(start), getScreenCoordsTup(end), 1) 
 
-    # The coords inputted to draw_line_dashed (hopefully) get converted to screenspace automagically
-    # X axis
-    #draw_line_dashed(screen, black, (0, fieldSizeY / 2), (fieldSizeX, fieldSizeY / 2), dash_length=10)
-    #print(labelsX)
-    #draw_line_dashed(surf, black, (minX, maxY - minY), (maxX, maxY - minY), dash_length=2, scaling=10)
-
-    # Y axis
-    #draw_line_dashed(screen, black, (fieldSizeX / 2, 0), (fieldSizeX / 2, fieldSizeY), dash_length=10)
-    
-
-    #draw_line_dashed(surf, black, (maxX - minX, minY), (maxX - minX, maxY), dash_length=2)
     
 
 def drawField(level):
@@ -418,7 +416,12 @@ def drawField(level):
     ycoord = str(Fraction(flagY).limit_denominator())
     if checkSpecialNumber(flagY) != None:
         ycoord = checkSpecialNumber(flagY)
-    flagPosString = "(" + xcoord + ", " + ycoord + ('i' if mode == "complex" else '') + ")"
+
+    flagPosString = ""
+    if mode != complex:
+        flagPosString = str(ycoord)
+    else:
+        flagPosString = "(" + xcoord + ", " + ycoord + ('i' if mode == "complex" else '') + ")"
     drawTextAt(flagPosString, flagX+.5, flagY+3)
     
 
@@ -432,7 +435,11 @@ def drawField(level):
         if checkSpecialNumber(bally) != None:
             ycoord = checkSpecialNumber(bally)
 
-        ballPosString = "(" + xcoord + ", " + ycoord + ('i' if mode == "complex" else '') + ")"
+        ballPosString = ""
+        if mode != complex:
+            ballPosString = str(ycoord)
+        else:
+            ballPosString = "(" + xcoord + ", " + ycoord + ('i' if mode == "complex" else '') + ")"
         drawTextAt(ballPosString, ballx+.5, bally+.5)
 
 
