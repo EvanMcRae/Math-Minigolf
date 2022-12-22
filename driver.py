@@ -418,7 +418,7 @@ def drawField(level):
     ycoord = str(Fraction(flagY).limit_denominator())
     if checkSpecialNumber(flagY) != None:
         ycoord = checkSpecialNumber(flagY)
-    flagPosString = xcoord + " " + ycoord + ('i' if mode == "complex" else '')
+    flagPosString = "(" + xcoord + ", " + ycoord + ('i' if mode == "complex" else '') + ")"
     drawTextAt(flagPosString, flagX+.5, flagY+3)
     
 
@@ -432,7 +432,7 @@ def drawField(level):
         if checkSpecialNumber(bally) != None:
             ycoord = checkSpecialNumber(bally)
 
-        ballPosString = xcoord + " " + ycoord + ('i' if mode == "complex" else '')
+        ballPosString = "(" + xcoord + ", " + ycoord + ('i' if mode == "complex" else '') + ")"
         drawTextAt(ballPosString, ballx+.5, bally+.5)
 
 
