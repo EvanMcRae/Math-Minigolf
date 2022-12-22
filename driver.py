@@ -555,7 +555,7 @@ def updateTextBox():
 
 def updateLevelBox(num):
     global level_rect
-    boxText = 'Level : ' +  str(num)
+    boxText = 'Level ' +  str(num)
     text_surface = base_font.render(boxText, True, (255, 255, 255))
     
     # set width of textfield so that text cannot get
