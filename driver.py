@@ -691,7 +691,9 @@ while running:
             nextLevel = False
             restartLevel = False
             restartNegative = False
-            showEndText = False
+            if showEndText:
+                currentLevel += 1
+                showEndText = False
             if input_rect.collidepoint(event.pos):
                 active = True
             else:
@@ -756,7 +758,6 @@ while running:
             print('done level = ', doneLevel)
             user_text = ""
             if doneLevel:
-                currentLevel += 1
                 showEndText = True
             elif len(level.numbers) == 0 and not inMotion:
                 restartLevel = True

@@ -70,7 +70,7 @@
         {
             "number": 4,
             "start_text": "If addition is when you add one number's value to another, then subtraction is when you take one number's value away from another! But be careful, this may be dangerous for our numbers...",
-            "end_text": "Congratulations, you kept all the numbers safe and sound! And that, my friends, is the end of the story of numbers.",
+            "end_text": "Congratulations, you kept all the numbers safe and sound! And that, my friends, is the end of the story of numbers...",
             "operations": [
                 "+", "-"
             ],
@@ -129,7 +129,7 @@
         },
         {
             "number": 7,
-            "start_text": "This might get repetitive…",
+            "start_text": "This might get repetitive...",
             "end_text": "Is there a faster way of doing this?",
             "operations": [
                 "+"
