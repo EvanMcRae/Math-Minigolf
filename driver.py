@@ -26,7 +26,7 @@ import unicodedata
 # Global variables here
 levels = []
 currentMove = ''
-currentLevel = 5
+currentLevel = 0
 
 ballx = 0
 bally = 0
@@ -87,7 +87,7 @@ def getUserInput(lvl, equ):
     if lvl.type == "complex" or lvl.type == "imaginary":
         #replace the i's with j's so python can parse
         equ = equ.replace('i','j')
-        equ = equ.replace('sqrt(-1)','j')
+        equ = equ.replace('sqrt(-1)','1')
        
         try:
             #convert user input to a complex number
@@ -97,7 +97,7 @@ def getUserInput(lvl, equ):
             return None
         
         #check that the number entered is still in the list of options.
-        if (lvl.type == "complex"):
+        if lvl.type == "complex":
             for num in lvl.numbers:
                 if complex(num.replace('i','j')) == enteredNum: #true when user entered a valid number
                     lvl.numbers.remove(equ.replace('j','i'))
@@ -107,8 +107,8 @@ def getUserInput(lvl, equ):
             invalidInput = True
             return None
 
-        if (lvl.type == "imaginary"):
-            equ = equ.replace('j','sqrt(-1)')
+        if lvl.type == "imaginary":
+            return enteredNum
 
     # make sure the user entered only valid numbers
     enteredNums = re.split(' |\+|\-|\*|/|\^|sqrt|\(|\)', equ)
