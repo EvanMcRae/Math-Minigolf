@@ -404,10 +404,10 @@ def drawField(level):
 
     drawAt(flagImg, flagRect, flagX, flagY)
     xcoord = str(Fraction(flagX).limit_denominator())
-    if checkSpecialNumber(flagX) != None:
+    if mode != "complex" and checkSpecialNumber(flagX) != None:
         xcoord = checkSpecialNumber(flagX)
     ycoord = str(Fraction(flagY).limit_denominator())
-    if checkSpecialNumber(flagY) != None:
+    if mode != "complex" and checkSpecialNumber(flagY) != None:
         ycoord = checkSpecialNumber(flagY)
 
     flagPosString = ""
@@ -422,10 +422,10 @@ def drawField(level):
     drawAt(ballImg, ballRect, ballx, bally)
     if not inMotion:
         xcoord = str(Fraction(ballx).limit_denominator())
-        if checkSpecialNumber(ballx) != None:
+        if mode != "complex" and checkSpecialNumber(ballx) != None:
             xcoord = checkSpecialNumber(ballx)
         ycoord = str(Fraction(bally).limit_denominator())
-        if checkSpecialNumber(bally) != None:
+        if mode != "complex" and checkSpecialNumber(bally) != None:
             ycoord = checkSpecialNumber(bally)
 
         ballPosString = ""
@@ -598,10 +598,12 @@ def updateLevelBox(num):
 def updateNumbersBox(numbers):
     numlist = ''
     for n in numbers:
-        parsed = parse(n)
-        specialCheck = checkSpecialNumber(parsed)
-        if specialCheck != None:
-            parsed = specialCheck
+        parsed = n
+        if levels[currentLevel].type != "complex":
+            parsed = parse(n)
+            specialCheck = checkSpecialNumber(parsed)
+            if specialCheck != None:
+                parsed = specialCheck
         numlist += str(parsed) + ', '
     numlist = numlist[:-2]
 
@@ -682,7 +684,7 @@ while running:
         drawField(level)
 
     if not showEndText and resetting:
-        if (currentLevel > len(levels)):
+        if (currentLevel >= len(levels)):
             running = False
             pygame.quit()
             sys.exit()

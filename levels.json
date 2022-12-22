@@ -477,22 +477,20 @@
         },
         {
             "number": 25,
-            "start_text": "Here's one last challenge for you: see if you can get to this hole in just one move.",
+            "start_text": "Here's one last challenge for you: see if you can get to this hole!",
             "end_text": "Congratulations on completing Math Minigolf!",
             "operations": [
-                "^",
-                "-",
-                "sqrt"
+                "+",
+                "-"
             ],
             "numbers": [
-                "2",
-                "2",
-                "pi",
-                "3"
+                "5-i",
+                "2+3i",
+                "-6+4i"
             ],
             "goal": {
-                "x": "sqrt(3)",
-                "y": "-2*pi"
+                "x": "5+2-6",
+                "y": "4+3-1"
             },
             "type": "complex",
             "two_d": true
