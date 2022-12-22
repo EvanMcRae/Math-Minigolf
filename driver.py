@@ -4,6 +4,8 @@ from fractions import Fraction
 import types
 import sys
 import os
+import numpy
+from PIL import Image
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 
 import pygame
@@ -31,6 +33,7 @@ bally = 0
 dx = 0
 dy = 0
 inMotion = False
+resetting = False
 restartLevel = False
 restartNegative = False
 
@@ -139,7 +142,7 @@ uiSizeY = 100
 screenSizeX = fieldSizeX + uiSizeX
 screenSizeY = fieldSizeY + uiSizeY
 
-standardPadding = 20
+standardPadding = 14
 # (current) Game boundary
 minX, minY, maxX, maxY = -10, -10, 10, 10
 
@@ -469,13 +472,36 @@ active = True
 levelBoxOffsetX = inputBoxOffsetX
 levelBoxOffsetY = standardPadding + inputBoxOffsetY + textInputBoxHeight
 levelBoxWidth = 140
-levelBoxHeight = 60
+levelBoxHeight = 32
 level_rect = pygame.Rect(levelBoxOffsetX, levelBoxOffsetY, levelBoxWidth, levelBoxHeight)
 
 #NUMBERS BOX IS TOP LEFT ELEMENT BELOW FIELD.
 numbersBoxOffsetX = standardPadding
 numbersBoxOffsetY = standardPadding + fieldSizeY
+numbersBoxWidth = fieldSizeX - 2*standardPadding
+numbersBoxHeight = levelBoxHeight
+numbers_rect = pygame.Rect(numbersBoxOffsetX, numbersBoxOffsetY, numbersBoxWidth, numbersBoxHeight)
+numbers_default_text = 'Available Numbers : '
 
+#OPERATIONS BOX IS BELOW NUMBERS BOX
+operationsBoxOffsetX = numbersBoxOffsetX
+operationsBoxOffsetY = standardPadding + numbersBoxOffsetY + numbersBoxHeight
+operationsBoxWidth = numbersBoxWidth
+operationsBoxHeight = levelBoxHeight
+operations_rect = pygame.Rect(operationsBoxOffsetX, operationsBoxOffsetY, operationsBoxWidth, operationsBoxHeight)
+operations_default_text = 'Available Operations : '
+
+#INFO TEXT BOX:
+infoBoxOffsetX = standardPadding
+infoBoxOffsetY = standardPadding
+infoBoxWidth = screenSizeX - standardPadding * 2
+infoBoxHeight = screenSizeY - standardPadding * 2
+info_rect = pygame.Rect(infoBoxOffsetX, infoBoxOffsetY, infoBoxWidth, infoBoxHeight)
+info_default_text = ''
+
+
+k = 120
+dark_background = pygame.Color(k,k,k)
 
 def updateTextBox():
     if active:
@@ -498,7 +524,7 @@ def updateTextBox():
 
 def updateLevelBox(num):
     global level_rect
-    boxText = 'level ' +  str(num)
+    boxText = 'Level : ' +  str(num)
     text_surface = base_font.render(boxText, True, (255, 255, 255))
     
     # set width of textfield so that text cannot get
@@ -506,93 +532,136 @@ def updateLevelBox(num):
     #level_rect.w = max(100, text_surface.get_width()+10)
     #level_rect = text_surface.get_rect(center=(levelBoxOffsetX+levelBoxWidth / 2, levelBoxOffsetY + levelBoxHeight / 2))
     level_rect.w = text_surface.get_width() +10
-    level_rect.h = text_surface.get_height() + 5
+    level_rect.h = text_surface.get_height() + 10
     # draw rectangle and argument passed which should
     # be on screen
     
-    pygame.draw.rect(screen, color_passive, level_rect)
+    pygame.draw.rect(screen, dark_background, level_rect)
 
     # render at position stated in arguments
     screen.blit(text_surface, (level_rect.x+5, level_rect.y+5))
 
-def updateNumbersBox():
-    if active:
-        color = color_active
-    else:
-        color = color_passive
+def updateNumbersBox(numbers):
+    text_surface = base_font.render(numbers_default_text + str(numbers), True, (255, 255, 255))
     
-    text_surface = base_font.render(user_text, True, (255, 255, 255))
-    
-    # set width of textfield so that text cannot get
-    # outside of user's text input
-    input_rect.w = max(100, text_surface.get_width()+10)
-
     # draw rectangle and argument passed which should
     # be on screen
-    pygame.draw.rect(screen, color, input_rect)
+    #numbers_rect.h = text_surface.get_height() + 10
+    pygame.draw.rect(screen, dark_background, numbers_rect)
 
     # render at position stated in arguments
-    screen.blit(text_surface, (input_rect.x+5, input_rect.y+5))
+    screen.blit(text_surface, (numbers_rect.x+5, numbers_rect.y+5))
 
-def updateOperationsBox():
-    if active:
-        color = color_active
-    else:
-        color = color_passive
+def updateOperationsBox(operations):
+    text = str(operations)
+    if len(operations) == 0:
+        text = 'None'
+    text_surface = base_font.render(operations_default_text + text, True, (255, 255, 255))
     
-    text_surface = base_font.render(user_text, True, (255, 255, 255))
-    
-    # set width of textfield so that text cannot get
-    # outside of user's text input
-    input_rect.w = max(100, text_surface.get_width()+10)
-
     # draw rectangle and argument passed which should
     # be on screen
-    pygame.draw.rect(screen, color, input_rect)
+    #operations_rect.h = text_surface.get_height() + 10
+    pygame.draw.rect(screen, dark_background, operations_rect)
 
     # render at position stated in arguments
-    screen.blit(text_surface, (input_rect.x+5, input_rect.y+5))
+    screen.blit(text_surface, (operations_rect.x+5, operations_rect.y+5))
+
+
+#https://stackoverflow.com/questions/42014195/rendering-text-with-multiple-lines-in-pygame
+def blit_text(surface, text, pos, font, color=pygame.Color('black')):
+    words = [word.split(' ') for word in text.splitlines()]  # 2D array where each row is a list of words.
+    space = font.size(' ')[0]  # The width of a space.
+    max_width, max_height = surface.get_size()
+    max_width -= standardPadding
+    max_height -= standardPadding
+    x, y = pos
+    for line in words:
+        for word in line:
+            word_surface = font.render(word, 0, color)
+            word_width, word_height = word_surface.get_size()
+            if x + word_width >= max_width:
+                x = pos[0]  # Reset the x.
+                y += word_height  # Start on new row.
+            surface.blit(word_surface, (x, y))
+            x += word_width + space
+        x = pos[0]  # Reset the x.
+        y += word_height  # Start on new row.
+def updateInfoBox(info):
+    
+    #text_surface = base_font.render(info_default_text + info, True, (255, 255, 255))
+    text_surface = base_font.render('', True, (255, 255, 255))
+    
+    # draw rectangle and argument passed which should
+    # be on screen
+    #operations_rect.h = text_surface.get_height() + 10
+    pygame.draw.rect(screen, dark_background, info_rect)
+
+    # render at position stated in arguments
+    #screen.blit(text_surface, (info_rect.x+5, info_rect.y+5))
+    font = pygame.font.SysFont('Arial', 48)
+    blit_text(screen, info, (20, 20), font)
 
 curLevel = prevLevel = -1
 running = True
 loadLevels('levels.json')
-
+nextLevel = True
+level = None
 while running:
 
     deltas = None
+    if curLevel != currentLevel:
+        curLevel = currentLevel
+        resetting = True
+        nextLevel = True
 
-    if curLevel != currentLevel or restartLevel or restartNegative:
-        level = copy.deepcopy(levels[currentLevel])
+    if restartLevel or restartNegative:
         #TODO turn into popups?
         if restartLevel:
             print('You ran out of moves! Try again.')
             restartLevel = False
+            resetting = True
         if restartNegative:
             print('What did you do?! Where did the ball even go? Try again, and think positive this time.')
             restartNegative = False
-        
+            resetting = True
+
+    if(level != None):
+        drawField(level)
+
+    if resetting:
+        level = copy.deepcopy(levels[currentLevel])
         #reset ball location
         ballx = 0
-        bally = 0
-        drawField(level)
-        curLevel = currentLevel
+        bally = 0        
+        resetting = False
+
+    if nextLevel:
+            updateInfoBox(levels[currentLevel].startText)
     
     
 
     # Did the user click the window close button?
     for event in pygame.event.get():
+        
         if event.type == pygame.QUIT:
             running = False
             pygame.quit()
             sys.exit()
 
         if event.type == pygame.MOUSEBUTTONDOWN:
+            nextLevel = False
             if input_rect.collidepoint(event.pos):
+                
                 active = True
             else:
                 active = False
+                
 
         if event.type == pygame.KEYDOWN:
+            #if the user hits a key to exit the info screen, don't enter that into the input box.
+            if nextLevel:
+                nextLevel = False
+                break
             #check input after enter is pressed
             if event.key == pygame.K_RETURN:
                 deltas = getUserInput(level, user_text)
@@ -612,11 +681,14 @@ while running:
     
     
     
-    # draw current level data
-    
-    updateTextBox()
-    updateLevelBox(curLevel)
-    #drawGridLines(-10, 10, -10, 10, level.type)
+    #don't draw this over the level info
+    if(not nextLevel):
+        # draw current level data
+        updateTextBox()
+        updateLevelBox(curLevel)
+        updateNumbersBox(level.numbers)
+        updateOperationsBox(level.operations)
+        #drawGridLines(-10, 10, -10, 10, level.type)
 
     # Flip (update) the display
     pygame.display.flip()
