@@ -52,7 +52,7 @@ def checkClose(num, target):
     ep = 0.00001
     if isinstance(num, str):
         num = parse(num)
-    if float(num) > target - ep and float(num) < target + ep:
+    if num > target - ep and num < target + ep:
         return True
     else:
         return False
@@ -202,8 +202,8 @@ def getScreenCoords(x,y):
     if isinstance(y, str):
         print(parse(y))
         y = parse(y)
-    screenX = float(x) * fieldSizeX / (maxX - minX + 1)  + fieldSizeX / 2
-    screenY = -float(y) * fieldSizeY / (maxY - minY + 1) + fieldSizeY / 2
+    screenX = x * fieldSizeX / (maxX - minX + 1)  + fieldSizeX / 2
+    screenY = -y * fieldSizeY / (maxY - minY + 1) + fieldSizeY / 2
     return (screenX, screenY)
 
 def getScreenCoordsTup(tup):    
@@ -418,7 +418,7 @@ def drawField(level):
     if checkSpecialNumber(flagY) != None:
         ycoord = checkSpecialNumber(flagY)
     flagPosString = xcoord + " " + ycoord + ('i' if mode == "complex" else '')
-    drawTextAt(flagPosString, float(flagX)+.5, float(flagY)+3)
+    drawTextAt(flagPosString, flagX+.5, flagY+3)
     
 
     # Draw ball
