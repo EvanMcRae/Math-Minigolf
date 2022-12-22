@@ -326,7 +326,7 @@ def drawGridLines(minX, maxX, minY, maxY, mode):
     labelsY = []
 
     #Override mode until we get other things working better
-    mode = "integer"
+    # mode = "integer"
     
 
     if mode == "natural":
@@ -506,6 +506,13 @@ levelBoxWidth = 140
 levelBoxHeight = 32
 level_rect = pygame.Rect(levelBoxOffsetX, levelBoxOffsetY, levelBoxWidth, levelBoxHeight)
 
+#RESTART BUTTON IS BELOW LEVEL NUMBER BOX
+restartBtnOffsetX = inputBoxOffsetX
+restartBtnOffsetY = standardPadding + levelBoxOffsetY + textInputBoxHeight
+restartBtnWidth = 140
+restartBtnHeight = 32
+restart_rect = pygame.Rect(restartBtnOffsetX, restartBtnOffsetY, restartBtnWidth, restartBtnHeight)
+
 #NUMBERS BOX IS TOP LEFT ELEMENT BELOW FIELD.
 numbersBoxOffsetX = standardPadding
 numbersBoxOffsetY = standardPadding + fieldSizeY
@@ -552,6 +559,17 @@ def updateTextBox():
 
     # render at position stated in arguments
     screen.blit(text_surface, (input_rect.x+5, input_rect.y+5))
+
+def updateRestartButton():
+    global restart_rect
+    btnText = 'Restart'
+    text_surface = base_font.render(btnText, True, (255, 255, 255))
+    restart_rect.w = text_surface.get_width() +10
+    restart_rect.h = text_surface.get_height() + 10
+    pygame.draw.rect(screen, dark_background, restart_rect)
+
+    # render at position stated in arguments
+    screen.blit(text_surface, (restart_rect.x+5, restart_rect.y+5))
 
 def updateLevelBox(num):
     global level_rect
@@ -698,6 +716,8 @@ while running:
                 active = True
             else:
                 active = False
+            if restart_rect.collidepoint(event.pos):
+                resetting = True
                 
 
         if event.type == pygame.KEYDOWN:
@@ -734,6 +754,7 @@ while running:
         updateLevelBox(curLevel)
         updateNumbersBox(level.numbers)
         updateOperationsBox(level.operations)
+        updateRestartButton()
         #drawGridLines(-10, 10, -10, 10, level.type)
 
     # Flip (update) the display
