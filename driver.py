@@ -26,7 +26,7 @@ import unicodedata
 # Global variables here
 levels = []
 currentMove = ''
-currentLevel = 21
+currentLevel = 25
 
 ballx = 0
 bally = 0
@@ -619,6 +619,10 @@ def updateNumbersBox(numbers):
 
     text_surface = base_font.render(numbers_default_text + numlist, True, (255, 255, 255))
     
+    # set width of textfield so that text cannot get
+    # outside of user's text input
+    numbers_rect.w = max(numbersBoxWidth, text_surface.get_width()+10)
+
     # draw rectangle and argument passed which should
     # be on screen
     #numbers_rect.h = text_surface.get_height() + 10
