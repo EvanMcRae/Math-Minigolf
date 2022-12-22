@@ -156,11 +156,11 @@
             ],
             "numbers": [
                 "2",
-                "6"
+                "4"
             ],
             "goal": {
                 "x": 0,
-                "y": 12
+                "y": 8
             },
             "type": "integer",
             "two_d": false

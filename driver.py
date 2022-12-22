@@ -120,8 +120,14 @@ def getUserInput(lvl, equ):
     enteredOps = re.split(' |\d+|\(|\)|pi|e', equ)
     for i in range(0, len(enteredOps)):
         if not enteredOps[i] == '' and not enteredOps[i] in lvl.operations:
-            print('Invalid input, please try again!')
-            return None
+            individualOps = True
+            for j in range(0, len(enteredOps[i])):
+                if not enteredOps[i][j] == '' and not enteredOps[i][j] in lvl.operations:
+                    print(enteredOps[i][j] + ' Invalid input, please try again! opind')
+                    individualOps = False
+            if not individualOps:
+                print(enteredOps[i] + ' Invalid input, please try again! op')
+                return None
 
     # make sure the equation can actually evaluate to something
     value = parse(equ)
