@@ -658,17 +658,6 @@ while running:
         resetting = True
         nextLevel = True
 
-    if restartLevel or restartNegative:
-        #TODO turn into popups?
-        if restartLevel:
-            print('You ran out of moves! Try again.')
-            restartLevel = False
-            resetting = True
-        if restartNegative:
-            print('What did you do?! Where did the ball even go? Try again, and think positive this time.')
-            restartNegative = False
-            resetting = True
-
     if(level != None):
         drawField(level)
 
@@ -679,10 +668,16 @@ while running:
         bally = 0        
         resetting = False
 
+    #popups
     if nextLevel:
-            updateInfoBox(levels[currentLevel].startText)
+        updateInfoBox(levels[currentLevel].startText)
+
+    if restartLevel:
+        updateInfoBox('You ran out of moves! Try again.')
     
-    
+    if restartNegative:
+        updateInfoBox('What did you do?! Where did the ball even go? Try again, and think positive this time.')
+
 
     # Did the user click the window close button?
     for event in pygame.event.get():
@@ -694,8 +689,9 @@ while running:
 
         if event.type == pygame.MOUSEBUTTONDOWN:
             nextLevel = False
+            restartLevel = False
+            restartNegative = False
             if input_rect.collidepoint(event.pos):
-                
                 active = True
             else:
                 active = False
@@ -726,7 +722,7 @@ while running:
     
     
     #don't draw this over the level info
-    if(not nextLevel):
+    if(not nextLevel and not restartLevel and not restartNegative):
         # draw current level data
         updateTextBox()
         updateLevelBox(curLevel)
@@ -759,8 +755,10 @@ while running:
                 currentLevel += 1
             elif len(level.numbers) == 0 and not inMotion:
                 restartLevel = True
+                resetting = True
             elif level.type == "natural" and (ballx < 0 or bally < 0) and not inMotion:
                 restartNegative = True
+                resetting = True
    
     clock.tick(10)
     
