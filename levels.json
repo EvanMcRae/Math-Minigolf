@@ -400,7 +400,7 @@
                 "x": 1,
                 "y": 0
             },
-            "type": "complex",
+            "type": "imaginary",
             "two_d": true
         },
         {
@@ -411,8 +411,8 @@
                 "+"
             ],
             "numbers": [
-                "2",
-                "3"
+                "2+3i",
+                "3+2i"
             ],
             "goal": {
                 "x": 2,

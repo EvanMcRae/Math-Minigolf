@@ -26,7 +26,7 @@ import unicodedata
 # Global variables here
 levels = []
 currentMove = ''
-currentLevel = 0
+currentLevel = 21
 
 ballx = 0
 bally = 0
@@ -38,6 +38,7 @@ restartLevel = False
 restartNegative = False
 showEndText = False
 invalidInput = False
+restartOffScreen = False
 
 # Utility functions go here
 def loadLevels(filename):
@@ -83,7 +84,7 @@ def checkSpecialNumber(num):
 def getUserInput(lvl, equ):
     global invalidInput   
     equ = equ.replace(' ', '') #get rid of any whitespace
-    if lvl.type == "complex":
+    if lvl.type == "complex" or lvl.type == "imaginary":
         #replace the i's with j's so python can parse
         equ = equ.replace('i','j')
         equ = equ.replace('sqrt(-1)','j')
@@ -96,16 +97,18 @@ def getUserInput(lvl, equ):
             return None
         
         #check that the number entered is still in the list of options.
-        for num in lvl.numbers:
-            if complex(num.replace('i','j')) == enteredNum: #true when user entered a valid number
-                lvl.numbers.remove(equ.replace('j','i'))
-                return enteredNum
-        
-        #didn't find match in valid numbers list
-        invalidInput = True
-        return None
+        if (lvl.type == "complex"):
+            for num in lvl.numbers:
+                if complex(num.replace('i','j')) == enteredNum: #true when user entered a valid number
+                    lvl.numbers.remove(equ.replace('j','i'))
+                    return enteredNum
 
+            #didn't find match in valid numbers list
+            invalidInput = True
+            return None
 
+        if (lvl.type == "imaginary"):
+            equ = equ.replace('j','sqrt(-1)')
 
     # make sure the user entered only valid numbers
     enteredNums = re.split(' |\+|\-|\*|/|\^|sqrt|\(|\)', equ)
@@ -414,10 +417,12 @@ def drawField(level):
         ycoord = checkSpecialNumber(flagY)
 
     flagPosString = ""
-    if mode != "complex":
+    if mode != "complex" and mode != "imaginary":
         flagPosString = str(ycoord)
+    elif mode == "imaginary":
+        flagPosString = str(xcoord)
     else:
-        flagPosString = "(" + xcoord + ", " + ycoord + ('i' if mode == "complex" else '') + ")"
+        flagPosString = "(" + xcoord + ", " + ycoord + "i)"
     drawTextAt(flagPosString, flagX+.5, flagY+3)
     
 
@@ -432,10 +437,12 @@ def drawField(level):
             ycoord = checkSpecialNumber(bally)
 
         ballPosString = ""
-        if mode != "complex":
+        if mode != "complex" and mode != "imaginary":
             ballPosString = str(ycoord)
+        elif mode == "imaginary":
+            ballPosString = str(xcoord)
         else:
-            ballPosString = "(" + xcoord + ", " + ycoord + ('i' if mode == "complex" else '') + ")"
+            ballPosString = "(" + xcoord + ", " + ycoord + "i)"
         drawTextAt(ballPosString, ballx+.5, bally+.5)
 
 #checks if the ball is within a small neighborhood of the goal. This is for checking floating point goal locations
@@ -713,6 +720,9 @@ while running:
     if invalidInput:
         updateInfoBox('Invalid input. Try again!')
 
+    if restartOffScreen:
+        updateInfoBox('You went off screen! Try again.')
+
     # Did the user click the window close button?
     for event in pygame.event.get():
         
@@ -726,6 +736,7 @@ while running:
             restartLevel = False
             restartNegative = False
             invalidInput = False
+            restartOffScreen = False
             if showEndText:
                 currentLevel += 1
                 showEndText = False
@@ -768,7 +779,7 @@ while running:
         nextLevel = True
     
     #don't draw this over the level info
-    if(not nextLevel and not restartLevel and not restartNegative and not showEndText and not invalidInput):
+    if(not nextLevel and not restartLevel and not restartNegative and not showEndText and not invalidInput and not restartOffScreen):
         # draw current level data
         updateTextBox()
         updateLevelBox(curLevel)
@@ -806,6 +817,9 @@ while running:
                 resetting = True
             elif level.type == "natural" and (ballx < 0 or bally < 0) and not inMotion:
                 restartNegative = True
+                resetting = True
+            elif (abs(ballx) > 10 or abs(bally) > 10) and not inMotion:
+                restartOffScreen = True
                 resetting = True
    
     clock.tick(10)
