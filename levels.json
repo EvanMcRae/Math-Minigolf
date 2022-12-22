@@ -423,62 +423,71 @@
         },
         {
             "number": 22,
-            "start_text": "Now try this puzzle for size.",
-            "end_text": "",
+            "start_text": "Now try this puzzle for size. Enter complex numbers exactly as they're listed.",
+            "end_text": "Great work!",
             "operations": [
-                "",
-                ""
+                "+",
+                "-"
             ],
             "numbers": [
-                ""
+                "5+2i",
+                "6+3i",
+                "-7-4i"
             ],
             "goal": {
-                "x": 1,
-                "y": 0
+                "x": "5-7",
+                "y": "2-4"
             },
             "type": "complex",
             "two_d": true
         },
         {
             "number": 23,
-            "start_text": "",
-            "end_text": "",
+            "start_text": "How about this next one?",
+            "end_text": "Keep up the great work!",
             "operations": [
-                "",
-                ""
+                "+",
+                "-"
             ],
             "numbers": [
-                ""
+                "7+4i",
+                "1-3i",
+                "6+5i",
+                "-2+0i"
             ],
             "goal": {
-                "x": 1,
-                "y": 0
+                "x": "1+6-2",
+                "y": "-3+5+0"
             },
             "type": "complex",
             "two_d": true
         },
         {
             "number": 24,
-            "start_text": "",
-            "end_text": "",
+            "start_text": "I can tell you're getting tired. Don't worry, there's just a couple more puzzles left. Try this one!",
+            "end_text": "Superb. You're so close to the finish line!",
             "operations": [
-                "",
-                ""
+                "+",
+                "-"
             ],
             "numbers": [
-                ""
+                "2+6i",
+                "0+2i",
+                "7-5i",
+                "-3-4i",
+                "8-3i"
             ],
             "goal": {
-                "x": 0,
-                "y": 0
+                "x": "0+8-3",
+                "y": "2-3-4"
             },
             "type": "complex",
             "two_d": true
         },
         {
             "number": 25,
-            "start_text": "Here's one last challenge for you: see if you can get to this hole!",
-            "end_text": "Congratulations on completing Math Minigolf!",
+            "start_text": "Here's one last challenge for you: see if you can get to this hole! Be careful which complex numbers you use.",
+            "end_text": "It's been a long road, dear player. With great pleasure, we pronounce you a certifiable math expert. Maybe you never wanted to be one, but here you are nonetheless. Bask in your own glory; you've earned it. Congratulations on completing Math Minigolf!",
             "operations": [
                 "+",
                 "-"
