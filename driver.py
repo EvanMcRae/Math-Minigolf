@@ -10,6 +10,7 @@ import pygame
 import json
 import level
 import copy
+import math
 from pygame.locals import *
 
 import warnings
@@ -69,7 +70,7 @@ def getUserInput(lvl, equ):
 
 
     # make sure the user entered only valid numbers
-    enteredNums = re.split(' |\+|\-|\*|/|\^|\(|\)', equ)
+    enteredNums = re.split(' |\+|\-|\*|/|\^|sqrt|\(|\)', equ)
     validNums = lvl.numbers[:] # create copy of valid numbers to make sure you can only use them the number of times allowed
     print(lvl.numbers)
     for i in range(0, len(enteredNums)):
@@ -80,7 +81,7 @@ def getUserInput(lvl, equ):
             validNums.remove(enteredNums[i])
 
     # make sure the user entered only valid operations
-    enteredOps = re.split(' |\d+|\(|\)', equ)
+    enteredOps = re.split(' |\d+|\(|\)|pi|e', equ)
     for i in range(0, len(enteredOps)):
         if not enteredOps[i] == '' and not enteredOps[i] in lvl.operations:
             print('Invalid input, please try again!')
@@ -88,6 +89,9 @@ def getUserInput(lvl, equ):
 
     # make sure the equation can actually evaluate to something
     equ = equ.replace('^','**')
+    equ = equ.replace('sqrt','math.sqrt')
+    equ = equ.replace('pi','math.pi')
+    equ = equ.replace('e','math.e')
     try:
         formula = parser.expr(equ).compile()
     except:
@@ -208,6 +212,8 @@ def animateBallMovement(level):
     destX = ballx + dx
     destY = bally + dy
 
+    print('destination: ' + str(destY))
+
     startX = ballx
     startY = bally
 
@@ -238,8 +244,6 @@ def animateBallMovement(level):
     inMotion = False
     
     drawField(level)
-
-    
 
     print()
 
@@ -387,6 +391,7 @@ def checkFinishedLevel(level):
 
     if ballx > flagX - ep and ballx < flagX + ep and bally > flagY - ep and bally < flagY + ep:
         return True
+    
     #print('ball y = ', bally)
     #print('flagy = ', flagY)
     return False
