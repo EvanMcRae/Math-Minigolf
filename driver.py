@@ -50,14 +50,16 @@ def loadLevels(filename):
 #check if two numbers are close
 def checkClose(num, target):
     ep = 0.00001
-    if num > target - ep and num < target + ep:
+    if isinstance(num, str):
+        num = parse(num)
+    if float(num) > target - ep and float(num) < target + ep:
         return True
     else:
         return False
 
 def checkSpecialNumber(num):
-    stringRepresentations = [unicodedata.lookup("GREEK SMALL LETTER PI"), "e", "sqrt(2)"]
-    specials = [math.pi, math.e, math.sqrt(2)]
+    stringRepresentations = [unicodedata.lookup("GREEK SMALL LETTER PI"), "e", "√2", "√3"]
+    specials = [math.pi, math.e, math.sqrt(2), math.sqrt(3)]
     
     multipleRange = 10
     c = 0
@@ -121,20 +123,22 @@ def getUserInput(lvl, equ):
             return None
 
     # make sure the equation can actually evaluate to something
+    value = parse(equ)
+    if value != None:
+        print('Entered value: ' + str(value))
+        lvl.numbers = validNums # consumes used numbers
+    return value
+
+def parse(equ):
     equ = equ.replace('^','**')
     equ = equ.replace('sqrt','math.sqrt')
     equ = equ.replace('pi','math.pi')
     equ = equ.replace('e','math.e')
     try:
-        formula = parser.expr(equ).compile()
+        return eval(parser.expr(equ).compile())
     except:
         print('Invalid input, please try again!')
         return None
-    
-    value = eval(formula)
-    print('Entered value: ' + str(value))
-    lvl.numbers = validNums # consumes used numbers
-    return value
 
 # Starting pygame stuff
 pygame.init()
@@ -193,8 +197,13 @@ def wait():
                 return
 
 def getScreenCoords(x,y):
-    screenX = x * fieldSizeX / (maxX - minX + 1)  + fieldSizeX / 2
-    screenY = -y * fieldSizeY / (maxY - minY + 1) + fieldSizeY / 2
+    if isinstance(x, str):
+        x = parse(x)
+    if isinstance(y, str):
+        print(parse(y))
+        y = parse(y)
+    screenX = float(x) * fieldSizeX / (maxX - minX + 1)  + fieldSizeX / 2
+    screenY = -float(y) * fieldSizeY / (maxY - minY + 1) + fieldSizeY / 2
     return (screenX, screenY)
 
 def getScreenCoordsTup(tup):    
@@ -395,7 +404,11 @@ def drawField(level):
 
     # Draw flag
     flagX = level.goal["x"]
+    if isinstance(flagX, str):
+        flagX = parse(flagX)
     flagY = level.goal["y"]
+    if isinstance(flagY, str):
+        flagY = parse(flagY)
 
     drawAt(flagImg, flagRect, flagX, flagY)
     xcoord = str(Fraction(flagX).limit_denominator())
@@ -405,7 +418,7 @@ def drawField(level):
     if checkSpecialNumber(flagY) != None:
         ycoord = checkSpecialNumber(flagY)
     flagPosString = xcoord + " " + ycoord + ('i' if mode == "complex" else '')
-    drawTextAt(flagPosString, flagX+.5, flagY+3)
+    drawTextAt(flagPosString, float(flagX)+.5, float(flagY)+3)
     
 
     # Draw ball
