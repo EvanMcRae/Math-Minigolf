@@ -511,7 +511,7 @@ numbersBoxOffsetY = standardPadding + fieldSizeY
 numbersBoxWidth = fieldSizeX - 2*standardPadding
 numbersBoxHeight = levelBoxHeight
 numbers_rect = pygame.Rect(numbersBoxOffsetX, numbersBoxOffsetY, numbersBoxWidth, numbersBoxHeight)
-numbers_default_text = 'Available Numbers : '
+numbers_default_text = 'Available Numbers: '
 
 #OPERATIONS BOX IS BELOW NUMBERS BOX
 operationsBoxOffsetX = numbersBoxOffsetX
@@ -519,7 +519,7 @@ operationsBoxOffsetY = standardPadding + numbersBoxOffsetY + numbersBoxHeight
 operationsBoxWidth = numbersBoxWidth
 operationsBoxHeight = levelBoxHeight
 operations_rect = pygame.Rect(operationsBoxOffsetX, operationsBoxOffsetY, operationsBoxWidth, operationsBoxHeight)
-operations_default_text = 'Available Operations : '
+operations_default_text = 'Available Operations: '
 
 #INFO TEXT BOX:
 infoBoxOffsetX = standardPadding
@@ -572,7 +572,16 @@ def updateLevelBox(num):
     screen.blit(text_surface, (level_rect.x+5, level_rect.y+5))
 
 def updateNumbersBox(numbers):
-    text_surface = base_font.render(numbers_default_text + str(numbers), True, (255, 255, 255))
+    numlist = ''
+    for n in numbers:
+        parsed = parse(n)
+        specialCheck = checkSpecialNumber(parsed)
+        if specialCheck != None:
+            parsed = specialCheck
+        numlist += str(parsed) + ', '
+    numlist = numlist[:-2]
+
+    text_surface = base_font.render(numbers_default_text + numlist, True, (255, 255, 255))
     
     # draw rectangle and argument passed which should
     # be on screen
@@ -583,9 +592,14 @@ def updateNumbersBox(numbers):
     screen.blit(text_surface, (numbers_rect.x+5, numbers_rect.y+5))
 
 def updateOperationsBox(operations):
-    text = str(operations)
+    text = ''
     if len(operations) == 0:
         text = 'None'
+    else:
+        for o in operations:
+            text += o + ', '
+        text = text[:-2]
+
     text_surface = base_font.render(operations_default_text + text, True, (255, 255, 255))
     
     # draw rectangle and argument passed which should
