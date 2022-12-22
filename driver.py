@@ -468,6 +468,10 @@ def checkFinishedLevel(level):
     ep = 0.00001
     flagX = level.goal["x"]
     flagY = level.goal["y"]
+    if isinstance(flagX, str):
+        flagX = parse(flagX)
+    if isinstance(flagY, str):
+        flagY = parse(flagY)
 
     if ballx > flagX - ep and ballx < flagX + ep and bally > flagY - ep and bally < flagY + ep:
         return True

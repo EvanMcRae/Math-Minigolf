@@ -43,7 +43,7 @@
             ],
             "goal": {
                 "x": 0,
-                "y": 6
+                "y": "1+2+3"
             },
             "type": "natural",
             "two_d": false
@@ -62,7 +62,7 @@
             ],
             "goal": {
                 "x": 0,
-                "y": 9
+                "y": "2+3+4"
             },
             "type": "natural",
             "two_d": false
@@ -82,7 +82,7 @@
             ],
             "goal": {
                 "x": 0,
-                "y": 3
+                "y": "8-5"
             },
             "type": "natural",
             "two_d": false
@@ -102,7 +102,7 @@
             ],
             "goal": {
                 "x": 0,
-                "y": -4
+                "y": "2+3-9"
             },
             "type": "integer",
             "two_d": false
@@ -122,7 +122,7 @@
             ],
             "goal": {
                 "x": 0,
-                "y": -7
+                "y": "5-4-8"
             },
             "type": "integer",
             "two_d": false
@@ -142,7 +142,7 @@
             ],
             "goal": {
                 "x": 0,
-                "y": 8
+                "y": "2+2+2+2"
             },
             "type": "integer",
             "two_d": false
@@ -160,7 +160,7 @@
             ],
             "goal": {
                 "x": 0,
-                "y": 8
+                "y": "2*4"
             },
             "type": "integer",
             "two_d": false
@@ -179,7 +179,7 @@
             ],
             "goal": {
                 "x": 0,
-                "y": -8
+                "y": "2*-4"
             },
             "type": "integer",
             "two_d": false
@@ -199,7 +199,7 @@
             ],
             "goal": {
                 "x": 0,
-                "y": 8
+                "y": "-2*-4"
             },
             "type": "integer",
             "two_d": false
@@ -218,7 +218,7 @@
             ],
             "goal": {
                 "x": 0,
-                "y": 8
+                "y": "2*2*2"
             },
             "type": "integer",
             "two_d": false
@@ -238,7 +238,7 @@
             ],
             "goal": {
                 "x": 0,
-                "y": 5
+                "y": "3^2-4"
             },
             "type": "integer",
             "two_d": false
@@ -257,7 +257,7 @@
             ],
             "goal": {
                 "x": 0,
-                "y": 0.25
+                "y": "2^-2"
             },
             "type": "rational",
             "two_d": false
@@ -273,13 +273,12 @@
             ],
             "numbers": [
                 "1",
-                "1",
                 "8",
                 "3"
             ],
             "goal": {
                 "x": 0,
-                "y": 3.125
+                "y": "3+1/8"
             },
             "type": "rational",
             "two_d": false
@@ -287,17 +286,20 @@
         {
             "number": 15,
             "start_text": "Let's keep playing with rational numbers!",
-            "end_text": "",
+            "end_text": "Good work!",
             "operations": [
                 "+",
-                "-"
+                "-",
+                "/"
             ],
             "numbers": [
-                ""
+                "7",
+                "6",
+                "2"
             ],
             "goal": {
                 "x": 0,
-                "y": 0
+                "y": "6-2/7"
             },
             "type": "rational",
             "two_d": false
@@ -317,7 +319,7 @@
             ],
             "goal": {
                 "x": 0,
-                "y": "sqrt(3)"
+                "y": "3^(1/2)"
             },
             "type": "real",
             "two_d": false
@@ -336,7 +338,7 @@
             ],
             "goal": {
                 "x": 0,
-                "y": "sqrt(2)"
+                "y": "sqrt(1+1)"
             },
             "type": "real",
             "two_d": false
@@ -395,7 +397,7 @@
                 "1"
             ],
             "goal": {
-                "x": 0,
+                "x": 1,
                 "y": 0
             },
             "type": "rational",
