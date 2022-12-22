@@ -37,16 +37,13 @@
             "end_text": "What if we could somehow combine these numbers together?",
             "operations": [],
             "numbers": [
-                "0",
                 "1",
                 "2",
-                "3",
-                "4",
-                "5"
+                "3"
             ],
             "goal": {
                 "x": 0,
-                "y": 13
+                "y": 6
             },
             "type": "natural",
             "two_d": false
@@ -59,14 +56,13 @@
                 "+"
             ],
             "numbers": [
-                "3",
-                "5",
                 "2",
-                "9"
+                "3",
+                "4"
             ],
             "goal": {
                 "x": 0,
-                "y": 11
+                "y": 9
             },
             "type": "natural",
             "two_d": false

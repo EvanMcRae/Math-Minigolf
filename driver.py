@@ -654,10 +654,6 @@ level = None
 while running:
 
     deltas = None
-    if curLevel != currentLevel and not showEndText:
-        curLevel = currentLevel
-        resetting = True
-        nextLevel = True
 
     if(level != None):
         drawField(level)
@@ -724,7 +720,10 @@ while running:
             else:
                 user_text += event.unicode
     
-    
+    if curLevel != currentLevel and not showEndText:
+        curLevel = currentLevel
+        resetting = True
+        nextLevel = True
     
     #don't draw this over the level info
     if(not nextLevel and not restartLevel and not restartNegative and not showEndText):
