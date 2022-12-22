@@ -66,7 +66,10 @@ def checkSpecialNumber(num):
         for m in range(-multipleRange, multipleRange + 1):
             if m != 0:
                 if(checkClose(num, m * s)):
-                    return "{}".format(m) + stringRepresentations[c]
+                    if(m == 1):
+                        return stringRepresentations[c]
+                    else:
+                        return "{}".format(m) + stringRepresentations[c]
         c += 1
 
     return None
