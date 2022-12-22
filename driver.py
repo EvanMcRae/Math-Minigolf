@@ -26,7 +26,7 @@ import unicodedata
 # Global variables here
 levels = []
 currentMove = ''
-currentLevel = 0
+currentLevel = 25 #TODO set to 0
 
 ballx = 0
 bally = 0
@@ -108,11 +108,10 @@ def getUserInput(lvl, equ):
     # make sure the user entered only valid numbers
     enteredNums = re.split(' |\+|\-|\*|/|\^|sqrt|\(|\)', equ)
     validNums = lvl.numbers[:] # create copy of valid numbers to make sure you can only use them the number of times allowed
-    print(lvl.numbers)
     for i in range(0, len(enteredNums)):
         if not enteredNums[i] == '':
             if not enteredNums[i] in validNums:
-                print('Invalid input, please try again! 1')
+                print('Invalid input, please try again!')
                 return None
             validNums.remove(enteredNums[i])
 
@@ -123,16 +122,14 @@ def getUserInput(lvl, equ):
             individualOps = True
             for j in range(0, len(enteredOps[i])):
                 if not enteredOps[i][j] == '' and not enteredOps[i][j] in lvl.operations:
-                    print(enteredOps[i][j] + ' Invalid input, please try again! opind')
                     individualOps = False
             if not individualOps:
-                print(enteredOps[i] + ' Invalid input, please try again! op')
+                print('Invalid input, please try again!')
                 return None
 
     # make sure the equation can actually evaluate to something
     value = parse(equ)
     if value != None:
-        print('Entered value: ' + str(value))
         lvl.numbers = validNums # consumes used numbers
     return value
 
@@ -207,7 +204,6 @@ def getScreenCoords(x,y):
     if isinstance(x, str):
         x = parse(x)
     if isinstance(y, str):
-        print(parse(y))
         y = parse(y)
     screenX = x * fieldSizeX / (maxX - minX + 1)  + fieldSizeX / 2
     screenY = -y * fieldSizeY / (maxY - minY + 1) + fieldSizeY / 2
@@ -269,7 +265,7 @@ def animateBallMovement(level):
     destX = ballx + dx
     destY = bally + dy
 
-    print('destination: ' + str(destY))
+    # print('destination: ' + str(destY))
 
     startX = ballx
     startY = bally
@@ -302,7 +298,7 @@ def animateBallMovement(level):
     
     drawField(level)
 
-    print()
+    # print()
 
 
 # Draws the text on the screen such that the center of the text's bounding box
@@ -350,15 +346,6 @@ def drawGridLines(minX, maxX, minY, maxY, mode):
 
         for i in range (minY, maxY + 1):
             labelsY.append(i)
-
-    if mode == "real":
-        print()
-
-    if mode == "rational":
-        print()
-    
-    if mode == "complex":
-        print()
     
     if mode == "complex":
         for l in labelsY:        
@@ -424,7 +411,7 @@ def drawField(level):
         ycoord = checkSpecialNumber(flagY)
 
     flagPosString = ""
-    if mode != complex:
+    if mode != "complex":
         flagPosString = str(ycoord)
     else:
         flagPosString = "(" + xcoord + ", " + ycoord + ('i' if mode == "complex" else '') + ")"
@@ -442,26 +429,11 @@ def drawField(level):
             ycoord = checkSpecialNumber(bally)
 
         ballPosString = ""
-        if mode != complex:
+        if mode != "complex":
             ballPosString = str(ycoord)
         else:
             ballPosString = "(" + xcoord + ", " + ycoord + ('i' if mode == "complex" else '') + ")"
         drawTextAt(ballPosString, ballx+.5, bally+.5)
-
-
-def printLevelInfo(lvl):
-    # very temporary
-    print('Level ' + str(lvl.number) + ':')
-    print(lvl.startText)
-    print('Operations: ' + str(lvl.operations)[1:-1])
-    print('Numbers: ' + str(lvl.numbers)[1:-1])
-
-    print('Goal location: ',end='')
-
-    #if(lvl.type == "natural" or lvl.type == "integer"):
-    print("({}, {})".format(lvl.goal["x"], lvl.goal["y"]))
-
-
 
 #checks if the ball is within a small neighborhood of the goal. This is for checking floating point goal locations
 def checkFinishedLevel(level):
@@ -476,8 +448,6 @@ def checkFinishedLevel(level):
     if ballx > flagX - ep and ballx < flagX + ep and bally > flagY - ep and bally < flagY + ep:
         return True
     
-    #print('ball y = ', bally)
-    #print('flagy = ', flagY)
     return False
 
 # Main loop here
@@ -712,6 +682,10 @@ while running:
         drawField(level)
 
     if not showEndText and resetting:
+        if (currentLevel > len(levels)):
+            running = False
+            pygame.quit()
+            sys.exit()
         level = copy.deepcopy(levels[currentLevel])
         #reset ball location
         ballx = 0
@@ -767,7 +741,6 @@ while running:
             #check input after enter is pressed
             if event.key == pygame.K_RETURN:
                 deltas = getUserInput(level, user_text)
-                print('hit enter')
                 user_text = ""
 
             # Check for backspace
@@ -817,7 +790,6 @@ while running:
 
             #check if we're done with this level
             doneLevel = checkFinishedLevel(level)
-            print('done level = ', doneLevel)
             user_text = ""
             if doneLevel:
                 showEndText = True

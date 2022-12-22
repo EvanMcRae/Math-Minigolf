@@ -367,7 +367,7 @@
         {
             "number": 19,
             "start_text": "One more special irrational we'll look at is e, or Euler's number. This number is particularly important in calculus, which we won't get into, but just know that it comes up in a lot of contexts also. Its actual value is roughly 2.7182818..., for those curious.",
-            "end_text": "We now pronounce you master of reals! You now know every real number, from the naturals to the integers, to the rationals, and even the irrationals. But is that all we can do?",
+            "end_text": "We now pronounce you master of reals! You now know every real number, from the naturals to the integers, to the rationals, and even the irrationals. But is that all we can do? What if there was something more? Something beyond? What if there was... another dimension?",
             "operations": [
                 "*",
                 "-"
@@ -387,8 +387,8 @@
         },
         {
             "number": 20,
-            "start_text": "",
-            "end_text": "",
+            "start_text": "But how do we get there? And what happens when we put a negative in a square root? Surely these questions aren't related, though.",
+            "end_text": "Or... they were! How convenient. What you've just discovered is imaginary numbers. The imaginary unit, i, is the square root of -1, which would be undefined if not for our new definition. We can use i to expand past the real number line into a two-dimensional complex plane!",
             "operations": [
                 "sqrt",
                 "-"
@@ -400,8 +400,102 @@
                 "x": 1,
                 "y": 0
             },
-            "type": "rational",
-            "two_d": false
+            "type": "complex",
+            "two_d": true
+        },
+        {
+            "number": 21,
+            "start_text": "But what is that word, \"complex\"? What happens when we combine our real numbers and imaginary numbers? (Use i to refer to imaginaries from here on.)",
+            "end_text": "What you've just done is created a complex number! 2+3i is like a coordinate pair, with 2 being the real part and 3i being the imaginary part. Combine them together, and you can move anywhere in the complex plane!",
+            "operations": [
+                "+"
+            ],
+            "numbers": [
+                "2",
+                "3"
+            ],
+            "goal": {
+                "x": 2,
+                "y": 3
+            },
+            "type": "complex",
+            "two_d": true
+        },
+        {
+            "number": 22,
+            "start_text": "Now try this puzzle for size.",
+            "end_text": "",
+            "operations": [
+                "",
+                ""
+            ],
+            "numbers": [
+                ""
+            ],
+            "goal": {
+                "x": 1,
+                "y": 0
+            },
+            "type": "complex",
+            "two_d": true
+        },
+        {
+            "number": 23,
+            "start_text": "",
+            "end_text": "",
+            "operations": [
+                "",
+                ""
+            ],
+            "numbers": [
+                ""
+            ],
+            "goal": {
+                "x": 1,
+                "y": 0
+            },
+            "type": "complex",
+            "two_d": true
+        },
+        {
+            "number": 24,
+            "start_text": "",
+            "end_text": "",
+            "operations": [
+                "",
+                ""
+            ],
+            "numbers": [
+                ""
+            ],
+            "goal": {
+                "x": 0,
+                "y": 0
+            },
+            "type": "complex",
+            "two_d": true
+        },
+        {
+            "number": 25,
+            "start_text": "Here's one last challenge for you: see if you can get to this hole in just one move.",
+            "end_text": "Congratulations on completing Math Minigolf!",
+            "operations": [
+                "^",
+                "-",
+                "sqrt"
+            ],
+            "numbers": [
+                "2",
+                "2",
+                "pi",
+                "3"
+            ],
+            "goal": {
+                "x": "sqrt(3)",
+                "y": "-2*pi"
+            },
+            "type": "complex",
+            "two_d": true
         }
     ]
 }
