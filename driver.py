@@ -36,6 +36,7 @@ inMotion = False
 resetting = False
 restartLevel = False
 restartNegative = False
+showEndText = False
 
 # Utility functions go here
 def loadLevels(filename):
@@ -630,8 +631,8 @@ def blit_text(surface, text, pos, font, color=pygame.Color('black')):
             x += word_width + space
         x = pos[0]  # Reset the x.
         y += word_height  # Start on new row.
+
 def updateInfoBox(info):
-    
     #text_surface = base_font.render(info_default_text + info, True, (255, 255, 255))
     text_surface = base_font.render('', True, (255, 255, 255))
     
@@ -653,7 +654,7 @@ level = None
 while running:
 
     deltas = None
-    if curLevel != currentLevel:
+    if curLevel != currentLevel and not showEndText:
         curLevel = currentLevel
         resetting = True
         nextLevel = True
@@ -661,7 +662,7 @@ while running:
     if(level != None):
         drawField(level)
 
-    if resetting:
+    if not showEndText and resetting:
         level = copy.deepcopy(levels[currentLevel])
         #reset ball location
         ballx = 0
@@ -669,6 +670,9 @@ while running:
         resetting = False
 
     #popups
+    if showEndText:
+        updateInfoBox(levels[currentLevel].endText)
+
     if nextLevel:
         updateInfoBox(levels[currentLevel].startText)
 
@@ -691,6 +695,7 @@ while running:
             nextLevel = False
             restartLevel = False
             restartNegative = False
+            showEndText = False
             if input_rect.collidepoint(event.pos):
                 active = True
             else:
@@ -722,7 +727,7 @@ while running:
     
     
     #don't draw this over the level info
-    if(not nextLevel and not restartLevel and not restartNegative):
+    if(not nextLevel and not restartLevel and not restartNegative and not showEndText):
         # draw current level data
         updateTextBox()
         updateLevelBox(curLevel)
@@ -753,6 +758,7 @@ while running:
             user_text = ""
             if doneLevel:
                 currentLevel += 1
+                showEndText = True
             elif len(level.numbers) == 0 and not inMotion:
                 restartLevel = True
                 resetting = True
