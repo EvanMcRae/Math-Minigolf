@@ -17,7 +17,8 @@ warnings.filterwarnings("ignore", category=DeprecationWarning)
 
 import re
 import parser
-
+import math
+import unicodedata
 
 # Global variables here
 levels = []
@@ -41,6 +42,30 @@ def loadLevels(filename):
     for i in range (0, len(levelData["levels"])):
         thisLevel = level.Level.from_json(levelData["levels"][i])
         levels.append(thisLevel)
+
+#check if two numbers are close
+def checkClose(num, target):
+    ep = 0.00001    
+
+    if num > target - ep and num < target:
+        return True
+    else:
+        return False
+
+def checkSpecialNumber(num):
+    stringRepresentations = [unicodedata.lookup("GREEK SMALL LETTER PI"), "e", "sqrt(2)"]
+    specials = [math.pi, math.e, math.sqrt(2)]
+    
+    multipleRange = 10
+    c = 0
+    for s in specials:        
+        for m in range(-multipleRange, multipleRange + 1):
+            if(checkClose(num, m * s)):
+                return "{}".format(m) + stringRepresentations[c]
+        c += 1
+
+    return None
+        
 
 def getUserInput(lvl, equ):   
     equ = equ.replace(' ', '') #get rid of any whitespace
@@ -100,24 +125,32 @@ def getUserInput(lvl, equ):
 
 # Starting pygame stuff
 pygame.init()
-resx = 600
-resy = 600
+fieldSizeX = 500
+fieldSizeY = 500
 
+uiSizeX = 200
+uiSizeY = 100
+
+screenSizeX = fieldSizeX + uiSizeX
+screenSizeY = fieldSizeY + uiSizeY
+
+standardPadding = 20
 # (current) Game boundary
 minX, minY, maxX, maxY = -10, -10, 10, 10
+
 
 #colors
 black = (0,0,0)
 white = (255,255,255)
 
 # Set up the drawing window
-screen = pygame.display.set_mode([resx, resy])
+screen = pygame.display.set_mode([screenSizeX, screenSizeY])
 
 # loading assets
-fieldImg = pygame.transform.scale(pygame.image.load("field.png"), (resx, resy))
+fieldImg = pygame.transform.scale(pygame.image.load("field.png"), (fieldSizeX, fieldSizeY))
 fieldRect = fieldImg.get_rect()
 
-fieldCheckeredImg = pygame.transform.scale(pygame.image.load("field_checkered.png"), (resx, resy))
+fieldCheckeredImg = pygame.transform.scale(pygame.image.load("field_checkered.png"), (fieldSizeX, fieldSizeY))
 fieldCheckeredRect = fieldCheckeredImg.get_rect()
 
 holeImg = pygame.image.load("hole.png")
@@ -147,8 +180,8 @@ def wait():
                 return
 
 def getScreenCoords(x,y):
-    screenX = x * resx / (maxX - minX + 1)  + resx / 2
-    screenY = -y * resy / (maxY - minY + 1) + resy / 2
+    screenX = x * fieldSizeX / (maxX - minX + 1)  + fieldSizeX / 2
+    screenY = -y * fieldSizeY / (maxY - minY + 1) + fieldSizeY / 2
     return (screenX, screenY)
 
 def getScreenCoordsTup(tup):    
@@ -263,14 +296,14 @@ def drawNumberAt(number, x, y, imaginary=False):
 
 def drawGridLines(minX, maxX, minY, maxY, mode):
     numLabels = 21 #20 labels each way
-    spacingX = resx / numLabels
-    spacingY = resy / numLabels
+    spacingX = fieldSizeX / numLabels
+    spacingY = fieldSizeY / numLabels
 
     labelsX = []
     labelsY = []
 
     #Override mode until we get other things working better
-    # mode = "integer"
+    mode = "integer"
     
 
     if mode == "natural":
@@ -324,12 +357,12 @@ def drawGridLines(minX, maxX, minY, maxY, mode):
 
     # The coords inputted to draw_line_dashed (hopefully) get converted to screenspace automagically
     # X axis
-    #draw_line_dashed(screen, black, (0, resy / 2), (resx, resy / 2), dash_length=10)
+    #draw_line_dashed(screen, black, (0, fieldSizeY / 2), (fieldSizeX, fieldSizeY / 2), dash_length=10)
     #print(labelsX)
     #draw_line_dashed(surf, black, (minX, maxY - minY), (maxX, maxY - minY), dash_length=2, scaling=10)
 
     # Y axis
-    #draw_line_dashed(screen, black, (resx / 2, 0), (resx / 2, resy), dash_length=10)
+    #draw_line_dashed(screen, black, (fieldSizeX / 2, 0), (fieldSizeX / 2, fieldSizeY), dash_length=10)
     
 
     #draw_line_dashed(surf, black, (maxX - minX, minY), (maxX - minX, maxY), dash_length=2)
@@ -396,15 +429,24 @@ def checkFinishedLevel(level):
 #used for setting fps
 clock = pygame.time.Clock()
 
+
+
+#INPUT BOX IS TOP LEFT UI ELEMENT ON LEFT SIDE PANEL
 # input text box stuff
 base_font = pygame.font.Font(None, 32)
 user_text = ''  
 # create rectangle
-input_rect = pygame.Rect(200, 200, 140, 32)
+inputBoxOffsetX = fieldSizeX + standardPadding
+inputBoxOffsetY = standardPadding
+textInputBoxWidth = 140
+textInputBoxHeight = 32
+input_rect = pygame.Rect(inputBoxOffsetX, inputBoxOffsetY, textInputBoxWidth, textInputBoxHeight)
 # basic font for user typed
 base_font = pygame.font.Font(None, 32)
 user_text = ''
-  
+#default_text = 'Input : '
+default_text=''
+
 # color_active stores color(lightskyblue3) which
 # gets active when input box is clicked by user
 color_active = pygame.Color('lightskyblue3')
@@ -414,7 +456,60 @@ color_active = pygame.Color('lightskyblue3')
 color_passive = pygame.Color('chartreuse4')
 color = color_passive
 active = True
+
+#LEVEL NUMBER BOX IS BELOW INPUT BOX
+#box displaying level number
+# create rectangle
+levelBoxOffsetX = inputBoxOffsetX
+levelBoxOffsetY = standardPadding + inputBoxOffsetY + textInputBoxHeight
+levelBoxWidth = 140
+levelBoxHeight = 60
+level_rect = pygame.Rect(levelBoxOffsetX, levelBoxOffsetY, levelBoxWidth, levelBoxHeight)
+
+#NUMBERS BOX IS TOP LEFT ELEMENT BELOW FIELD.
+numbersBoxOffsetX = standardPadding
+numbersBoxOffsetY = standardPadding + fieldSizeY
+
+
 def updateTextBox():
+    if active:
+        color = color_active
+    else:
+        color = color_passive
+    
+    text_surface = base_font.render(default_text + user_text, True, (255, 255, 255))
+    
+    # set width of textfield so that text cannot get
+    # outside of user's text input
+    input_rect.w = max(150, text_surface.get_width()+10)
+
+    # draw rectangle and argument passed which should
+    # be on screen
+    pygame.draw.rect(screen, color, input_rect)
+
+    # render at position stated in arguments
+    screen.blit(text_surface, (input_rect.x+5, input_rect.y+5))
+
+def updateLevelBox(num):
+    global level_rect
+    boxText = 'level ' +  str(num)
+    text_surface = base_font.render(boxText, True, (255, 255, 255))
+    
+    # set width of textfield so that text cannot get
+    # outside of user's text input
+    #level_rect.w = max(100, text_surface.get_width()+10)
+    #level_rect = text_surface.get_rect(center=(levelBoxOffsetX+levelBoxWidth / 2, levelBoxOffsetY + levelBoxHeight / 2))
+    level_rect.w = text_surface.get_width() +10
+    level_rect.h = text_surface.get_height() + 5
+    # draw rectangle and argument passed which should
+    # be on screen
+    
+    pygame.draw.rect(screen, color_passive, level_rect)
+
+    # render at position stated in arguments
+    screen.blit(text_surface, (level_rect.x+5, level_rect.y+5))
+
+def updateNumbersBox():
     if active:
         color = color_active
     else:
@@ -432,7 +527,25 @@ def updateTextBox():
 
     # render at position stated in arguments
     screen.blit(text_surface, (input_rect.x+5, input_rect.y+5))
+
+def updateOperationsBox():
+    if active:
+        color = color_active
+    else:
+        color = color_passive
     
+    text_surface = base_font.render(user_text, True, (255, 255, 255))
+    
+    # set width of textfield so that text cannot get
+    # outside of user's text input
+    input_rect.w = max(100, text_surface.get_width()+10)
+
+    # draw rectangle and argument passed which should
+    # be on screen
+    pygame.draw.rect(screen, color, input_rect)
+
+    # render at position stated in arguments
+    screen.blit(text_surface, (input_rect.x+5, input_rect.y+5))
 
 curLevel = prevLevel = -1
 running = True
@@ -496,6 +609,7 @@ while running:
     # draw current level data
     
     updateTextBox()
+    updateLevelBox(curLevel)
     #drawGridLines(-10, 10, -10, 10, level.type)
 
     # Flip (update) the display
@@ -583,9 +697,9 @@ print(z)
 
 #nicer grid code:
 # draw = True
-#     for x in range(0, resx, int(resx/maxX/2)):
-#         for y in range(0, resy, int(resy/maxY/2)):
+#     for x in range(0, fieldSizeX, int(fieldSizeX/maxX/2)):
+#         for y in range(0, fieldSizeY, int(fieldSizeY/maxY/2)):
 #             if draw:
-#                 pygame.draw.rect(screen, (9,140,9), [x, y, (resx/maxX/2), (resy/maxY/2)])
+#                 pygame.draw.rect(screen, (9,140,9), [x, y, (fieldSizeX/maxX/2), (fieldSizeY/maxY/2)])
 #             draw = not draw
 #         draw = not draw
