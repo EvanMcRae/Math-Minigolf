@@ -26,7 +26,7 @@ import unicodedata
 # Global variables here
 levels = []
 currentMove = ''
-currentLevel = 25
+currentLevel = 5
 
 ballx = 0
 bally = 0
@@ -368,7 +368,7 @@ def drawGridLines(minX, maxX, minY, maxY, mode):
 
         #draw vertical line
         start = (0 / 2, 10)
-        end = (0 / 2, 0)            
+        end = (0 / 2, 0 if mode == "natural" else -10)
         pygame.draw.line(screen, black, getScreenCoordsTup(start), getScreenCoordsTup(end), 1) 
         #print('start: ', getScreenCoordsTup(start))
     else:          
