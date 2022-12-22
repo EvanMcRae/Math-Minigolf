@@ -49,9 +49,8 @@ def loadLevels(filename):
 
 #check if two numbers are close
 def checkClose(num, target):
-    ep = 0.00001    
-
-    if num > target - ep and num < target:
+    ep = 0.00001
+    if num > target - ep and num < target + ep:
         return True
     else:
         return False
@@ -397,15 +396,27 @@ def drawField(level):
     flagY = level.goal["y"]
 
     drawAt(flagImg, flagRect, flagX, flagY)
-    flagPosString = str(Fraction(flagX).limit_denominator()) + " " + str(Fraction(flagY).limit_denominator()) + ('i' if mode == "complex" else '')
+    xcoord = str(Fraction(flagX).limit_denominator())
+    if checkSpecialNumber(flagX) != None:
+        xcoord = checkSpecialNumber(flagX)
+    ycoord = str(Fraction(flagY).limit_denominator())
+    if checkSpecialNumber(flagY) != None:
+        ycoord = checkSpecialNumber(flagY)
+    flagPosString = xcoord + " " + ycoord + ('i' if mode == "complex" else '')
     drawTextAt(flagPosString, flagX+.5, flagY+3)
     
 
     # Draw ball
     drawAt(ballImg, ballRect, ballx, bally)
     if not inMotion:
-        #if mode == ""
-        ballPosString = str(Fraction(ballx).limit_denominator()) + " " + str(Fraction(bally).limit_denominator()) + ('i' if mode == "complex" else '')
+        xcoord = str(Fraction(ballx).limit_denominator())
+        if checkSpecialNumber(ballx) != None:
+            xcoord = checkSpecialNumber(ballx)
+        ycoord = str(Fraction(bally).limit_denominator())
+        if checkSpecialNumber(bally) != None:
+            ycoord = checkSpecialNumber(bally)
+
+        ballPosString = xcoord + " " + ycoord + ('i' if mode == "complex" else '')
         drawTextAt(ballPosString, ballx+.5, bally+.5)
 
 
