@@ -84,7 +84,7 @@ def getUserInput(lvl, equ):
     if lvl.type == "complex":
         #replace the i's with j's so python can parse
         equ = equ.replace('i','j')
-
+        equ = equ.replace('sqrt(-1)','j')
        
         try:
             #convert user input to a complex number
