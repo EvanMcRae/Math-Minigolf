@@ -513,6 +513,13 @@ restartBtnWidth = 140
 restartBtnHeight = 32
 restart_rect = pygame.Rect(restartBtnOffsetX, restartBtnOffsetY, restartBtnWidth, restartBtnHeight)
 
+#QUIT BUTTON IS BELOW RESTART BUTTON
+quitBtnOffsetX = inputBoxOffsetX
+quitBtnOffsetY = standardPadding + restartBtnOffsetY + textInputBoxHeight
+quitBtnWidth = 140
+quitBtnHeight = 32
+quit_rect = pygame.Rect(restartBtnOffsetX, quitBtnOffsetY, quitBtnWidth, quitBtnHeight)
+
 #NUMBERS BOX IS TOP LEFT ELEMENT BELOW FIELD.
 numbersBoxOffsetX = standardPadding
 numbersBoxOffsetY = standardPadding + fieldSizeY
@@ -570,6 +577,17 @@ def updateRestartButton():
 
     # render at position stated in arguments
     screen.blit(text_surface, (restart_rect.x+5, restart_rect.y+5))
+
+def updateQuitButton():
+    global quit_rect
+    btnText = 'Quit'
+    text_surface = base_font.render(btnText, True, (255, 255, 255))
+    quit_rect.w = text_surface.get_width() +10
+    quit_rect.h = text_surface.get_height() + 10
+    pygame.draw.rect(screen, dark_background, quit_rect)
+
+    # render at position stated in arguments
+    screen.blit(text_surface, (quit_rect.x+5, quit_rect.y+5))
 
 def updateLevelBox(num):
     global level_rect
@@ -718,6 +736,10 @@ while running:
                 active = False
             if restart_rect.collidepoint(event.pos):
                 resetting = True
+            if quit_rect.collidepoint(event.pos):
+                running = False
+                pygame.quit()
+                sys.exit()
                 
 
         if event.type == pygame.KEYDOWN:
@@ -755,6 +777,8 @@ while running:
         updateNumbersBox(level.numbers)
         updateOperationsBox(level.operations)
         updateRestartButton()
+        updateQuitButton()
+
         #drawGridLines(-10, 10, -10, 10, level.type)
 
     # Flip (update) the display
