@@ -26,7 +26,7 @@ import unicodedata
 # Global variables here
 levels = []
 currentMove = ''
-currentLevel = 25 #TODO set to 0
+currentLevel = 0
 
 ballx = 0
 bally = 0
@@ -37,6 +37,7 @@ resetting = False
 restartLevel = False
 restartNegative = False
 showEndText = False
+invalidInput = False
 
 # Utility functions go here
 def loadLevels(filename):
@@ -79,7 +80,8 @@ def checkSpecialNumber(num):
     return None
         
 
-def getUserInput(lvl, equ):   
+def getUserInput(lvl, equ):
+    global invalidInput   
     equ = equ.replace(' ', '') #get rid of any whitespace
     if lvl.type == "complex":
         #replace the i's with j's so python can parse
@@ -90,7 +92,7 @@ def getUserInput(lvl, equ):
             #convert user input to a complex number
             enteredNum = complex(equ)
         except:
-            print('Invalid complex input, please try again!')
+            invalidInput = True
             return None
         
         #check that the number entered is still in the list of options.
@@ -100,7 +102,7 @@ def getUserInput(lvl, equ):
                 return enteredNum
         
         #didn't find match in valid numbers list
-        print('Invalid input, please try again! C')
+        invalidInput = True
         return None
 
 
@@ -111,7 +113,7 @@ def getUserInput(lvl, equ):
     for i in range(0, len(enteredNums)):
         if not enteredNums[i] == '':
             if not enteredNums[i] in validNums:
-                print('Invalid input, please try again!')
+                invalidInput = True
                 return None
             validNums.remove(enteredNums[i])
 
@@ -124,7 +126,7 @@ def getUserInput(lvl, equ):
                 if not enteredOps[i][j] == '' and not enteredOps[i][j] in lvl.operations:
                     individualOps = False
             if not individualOps:
-                print('Invalid input, please try again!')
+                invalidInput = True
                 return None
 
     # make sure the equation can actually evaluate to something
@@ -134,6 +136,7 @@ def getUserInput(lvl, equ):
     return value
 
 def parse(equ):
+    global invalidInput
     equ = equ.replace('^','**')
     equ = equ.replace('sqrt','math.sqrt')
     equ = equ.replace('pi','math.pi')
@@ -141,7 +144,7 @@ def parse(equ):
     try:
         return eval(parser.expr(equ).compile())
     except:
-        print('Invalid input, please try again!')
+        invalidInput = True
         return None
 
 # Starting pygame stuff
@@ -702,11 +705,13 @@ while running:
         updateInfoBox(levels[currentLevel].startText)
 
     if restartLevel:
-        updateInfoBox('You ran out of moves! Try again.')
+        updateInfoBox('You ran out of numbers! Try again.')
     
     if restartNegative:
         updateInfoBox('What did you do?! Where did the ball even go? Try again, and think positive this time.')
 
+    if invalidInput:
+        updateInfoBox('Invalid input. Try again!')
 
     # Did the user click the window close button?
     for event in pygame.event.get():
@@ -720,6 +725,7 @@ while running:
             nextLevel = False
             restartLevel = False
             restartNegative = False
+            invalidInput = False
             if showEndText:
                 currentLevel += 1
                 showEndText = False
@@ -762,7 +768,7 @@ while running:
         nextLevel = True
     
     #don't draw this over the level info
-    if(not nextLevel and not restartLevel and not restartNegative and not showEndText):
+    if(not nextLevel and not restartLevel and not restartNegative and not showEndText and not invalidInput):
         # draw current level data
         updateTextBox()
         updateLevelBox(curLevel)
