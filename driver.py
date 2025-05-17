@@ -19,7 +19,7 @@ import warnings
 warnings.filterwarnings("ignore", category=DeprecationWarning) 
 
 import re
-import parser
+import ast
 import math
 import unicodedata
 
@@ -55,7 +55,7 @@ def checkClose(num, target):
     ep = 0.00001
     if isinstance(num, str):
         num = parse(num)
-    if num > target - ep and num < target + ep:
+    if isinstance(num, float) and num > target - ep and num < target + ep:
         return True
     else:
         return False
@@ -144,8 +144,11 @@ def parse(equ):
     equ = equ.replace('sqrt','math.sqrt')
     equ = equ.replace('pi','math.pi')
     equ = equ.replace('e','math.e')
+
     try:
-        return eval(parser.expr(equ).compile())
+        parsed = ast.parse(equ, mode='eval')
+        compiled = compile(parsed, filename="<string>", mode="eval")
+        return eval(compiled)
     except:
         invalidInput = True
         return None
