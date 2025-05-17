@@ -41,6 +41,15 @@ invalidInput = False
 restartOffScreen = False
 
 # Utility functions go here
+def resource_path(relative_path):
+    try:
+    # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, "assets", relative_path)
+
 def loadLevels(filename):
     with open(filename, 'r') as inFile:
         levelData = json.load(inFile)
@@ -111,7 +120,7 @@ def getUserInput(lvl, equ):
             return enteredNum
 
     # make sure the user entered only valid numbers
-    enteredNums = re.split(' |\+|\-|\*|/|\^|sqrt|\(|\)', equ)
+    enteredNums = re.split(r' |\+|\-|\*|/|\^|sqrt|\(|\)', equ)
     validNums = lvl.numbers[:] # create copy of valid numbers to make sure you can only use them the number of times allowed
     for i in range(0, len(enteredNums)):
         if not enteredNums[i] == '':
@@ -121,7 +130,7 @@ def getUserInput(lvl, equ):
             validNums.remove(enteredNums[i])
 
     # make sure the user entered only valid operations
-    enteredOps = re.split(' |\d+|\(|\)|pi|e', equ)
+    enteredOps = re.split(r' |\d+|\(|\)|pi|e', equ)
     for i in range(0, len(enteredOps)):
         if not enteredOps[i] == '' and not enteredOps[i] in lvl.operations:
             individualOps = True
@@ -177,25 +186,25 @@ white = (255,255,255)
 screen = pygame.display.set_mode([screenSizeX, screenSizeY])
 
 # loading assets
-fieldImg = pygame.transform.scale(pygame.image.load("field.png"), (fieldSizeX, fieldSizeY))
+fieldImg = pygame.transform.scale(pygame.image.load(resource_path("field.png")), (fieldSizeX, fieldSizeY))
 fieldRect = fieldImg.get_rect()
 
-fieldCheckeredImg = pygame.transform.scale(pygame.image.load("field_checkered.png"), (fieldSizeX, fieldSizeY))
+fieldCheckeredImg = pygame.transform.scale(pygame.image.load(resource_path("field_checkered.png")), (fieldSizeX, fieldSizeY))
 fieldCheckeredRect = fieldCheckeredImg.get_rect()
 
-holeImg = pygame.image.load("hole.png")
+holeImg = pygame.image.load(resource_path("hole.png"))
 holeRect = holeImg.get_rect()
 
-flagImg = pygame.image.load("flag.png")
+flagImg = pygame.image.load(resource_path("flag.png"))
 flagRect = flagImg.get_rect()
 
-flagNoHoleImg = pygame.image.load("flag_no_hole.png")
+flagNoHoleImg = pygame.image.load(resource_path("flag_no_hole.png"))
 flagNoHoleRect = flagNoHoleImg.get_rect()
 
-ballImg = pygame.image.load("ball.png")
+ballImg = pygame.image.load(resource_path("ball.png"))
 ballRect = ballImg.get_rect()
 
-holeImg = pygame.image.load("hole.png")
+holeImg = pygame.image.load(resource_path("hole.png"))
 holeRect = holeImg.get_rect()
 
 
@@ -690,7 +699,7 @@ def updateInfoBox(info):
 
 curLevel = prevLevel = -1
 running = True
-loadLevels('levels.json')
+loadLevels(resource_path('levels.json'))
 nextLevel = True
 level = None
 while running:
